@@ -640,7 +640,7 @@ serve(async (req) => {
         });
         // Dedup URLs across the entire deck so the same photo never appears twice.
         const usedUrls = new Set<string>();
-        const CONCURRENCY = 6;
+        const CONCURRENCY = 2;
         // Process sequentially-batched so usedUrls grows between batches and later
         // slides actually see what earlier ones picked.
         for (let i = 0; i < slidesNeedingImage.length; i += CONCURRENCY) {
