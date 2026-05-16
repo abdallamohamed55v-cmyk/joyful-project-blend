@@ -37,7 +37,7 @@ import { ChatFollowups } from "@/components/chat/ChatFollowups";
 // Heavy / conditionally-rendered — lazy load to shrink initial chat bundle
 const SlidesDeckCard = lazy(() => import("@/components/chat/SlidesDeckCard"));
 const SlidesHtmlDeckCard = lazy(() => import("@/components/chat/SlidesHtmlDeckCard"));
-const StandardSlidesCard = lazy(() => import("@/components/chat/StandardSlidesCard"));
+
 const InChatTimerCard = lazy(() => import("@/components/learn/InChatTimerCard"));
 
 const ConnectorsDialog = lazy(() => import("@/components/integrations/ConnectorsDialog"));
@@ -2840,18 +2840,6 @@ Ask me anything to get started!`;
                           ) : (
                             <SlidesDeckCard deck={msg.slidesDeck} />
                           )}
-                        </Suspense>
-                      </div>
-                    )}
-                    {msg.role === "assistant" && msg.standardSlides && (
-                      <div className="px-3 md:px-12">
-                        <Suspense fallback={null}>
-                          <StandardSlidesCard
-                            title={msg.standardSlides.title}
-                            templateName={msg.standardSlides.templateName}
-                            url={msg.standardSlides.url}
-                            colors={msg.standardSlides.colors}
-                          />
                         </Suspense>
                       </div>
                     )}
