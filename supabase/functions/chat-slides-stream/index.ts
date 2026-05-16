@@ -505,7 +505,27 @@ Return JSON: { "slides": [...] } in SAME ORDER as outline.`;
       return { ...o, ...deep, image_query: (deep.image_query as string) || (o.image_query as string) };
     });
   }
-  return outline.slides;
+  // FALLBACK: bulk expand failed (likely rate-limited). Expand in small batches so
+  // we don't ship slides with empty body/bullets to the user.
+  console.warn("[expandDeep] bulk failed, expanding in batches");
+  const result = [...outline.slides];
+  const BATCH = 3;
+  for (let i = 0; i < outline.slides.length; i += BATCH) {
+    const batch = outline.slides.slice(i, i + BATCH);
+    const batchOut = await aiJson<{ slides?: RawSlide[] }>([
+      { role: "system", content: sys },
+      { role: "user", content: `Topic: ${topic}\nOutline:\n${JSON.stringify({ slides: batch }, null, 2)}\n${content ? `Reference material:\n${content.slice(0, 5000)}` : ""}` },
+    ]);
+    if (batchOut?.slides?.length) {
+      for (let j = 0; j < batch.length; j++) {
+        const deep = batchOut.slides[j];
+        if (deep) result[i + j] = { ...result[i + j], ...deep, image_query: (deep.image_query as string) || (result[i + j].image_query as string) };
+      }
+    }
+    // small pacing delay between batches to avoid hammering the rate limit
+    await new Promise((r) => setTimeout(r, 400));
+  }
+  return result;
 }
 
 /* ────────────────────────────────────────────────────────── */
