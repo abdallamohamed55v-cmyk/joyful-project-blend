@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Check } from "lucide-react";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
-export type PickerCategory = "premium" | "standard";
+export type PickerCategory = "premium";
 
 export interface PickerTemplate {
   id: string;
@@ -50,7 +50,7 @@ const TemplatePickerSheet = ({
 
   const visible = useMemo(() => {
     if (!showCategoryTabs) return templates;
-    const filtered = templates.filter((t) => (t.category || "standard") === tab);
+    const filtered = templates.filter((t) => (t.category || "premium") === tab);
     return filtered.length ? filtered : templates;
   }, [templates, tab, showCategoryTabs]);
 
@@ -100,16 +100,6 @@ const TemplatePickerSheet = ({
                   }`}
                 >
                   Premium
-                </button>
-                <button
-                  onClick={() => setTab("standard")}
-                  className={`flex-1 h-10 rounded-xl text-xs font-semibold transition ${
-                    tab === "standard"
-                      ? "bg-foreground text-background shadow"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  Standard
                 </button>
               </div>
             )}
