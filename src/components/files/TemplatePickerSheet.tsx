@@ -123,7 +123,7 @@ const TemplatePickerSheet = ({
                           src={t.preview}
                           alt=""
                           loading="lazy"
-                          className="absolute inset-0 w-full h-full object-contain p-1.5"
+                          className="absolute inset-0 w-full h-full object-cover object-top"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                         />
                       ) : null}
