@@ -77,34 +77,51 @@ console.log("[chat-slides-stream] image keys present:",
 
 async function aiJson<T = unknown>(messages: Array<{ role: string; content: string }>, model = "google/gemini-2.5-flash"): Promise<T | null> {
   if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY missing");
-  const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: "system", content: "Return raw JSON only. No markdown fences. No prose." },
-        ...messages,
-      ],
-      response_format: { type: "json_object" },
-    }),
-  });
-  if (!r.ok) {
-    console.warn("aiJson failed", r.status, (await r.text().catch(() => "")).slice(0, 200));
-    return null;
+  // Retry on 429 / 5xx with exponential backoff — the AI gateway rate-limits aggressively
+  // and silent failures here cause empty slide bodies/bullets.
+  const MAX_ATTEMPTS = 4;
+  const fallbackModels = [model, "google/gemini-2.5-flash-lite", "google/gemini-2.5-flash"];
+  let lastStatus = 0;
+  let lastBody = "";
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    const useModel = fallbackModels[Math.min(attempt, fallbackModels.length - 1)];
+    const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: useModel,
+        messages: [
+          { role: "system", content: "Return raw JSON only. No markdown fences. No prose." },
+          ...messages,
+        ],
+        response_format: { type: "json_object" },
+      }),
+    });
+    if (r.ok) {
+      const d = await r.json();
+      const text = d?.choices?.[0]?.message?.content as string | undefined;
+      if (!text) return null;
+      try { return JSON.parse(text) as T; } catch {
+        const m = text.match(/\{[\s\S]*\}/);
+        if (m) try { return JSON.parse(m[0]) as T; } catch { /* */ }
+        return null;
+      }
+    }
+    lastStatus = r.status;
+    lastBody = (await r.text().catch(() => "")).slice(0, 200);
+    // Only retry on rate-limit or transient server errors
+    if (r.status !== 429 && r.status < 500) break;
+    // Exponential backoff with jitter: 800ms, 1800ms, 3500ms
+    const delay = 600 * Math.pow(2, attempt) + Math.floor(Math.random() * 400);
+    await new Promise((res) => setTimeout(res, delay));
   }
-  const d = await r.json();
-  const text = d?.choices?.[0]?.message?.content as string | undefined;
-  if (!text) return null;
-  try { return JSON.parse(text) as T; } catch {
-    const m = text.match(/\{[\s\S]*\}/);
-    if (m) try { return JSON.parse(m[0]) as T; } catch { /* */ }
-    return null;
-  }
+  console.warn("aiJson failed", lastStatus, lastBody);
+  return null;
 }
+
 
 async function streamNarrative(
   systemPrompt: string,
@@ -488,7 +505,27 @@ Return JSON: { "slides": [...] } in SAME ORDER as outline.`;
       return { ...o, ...deep, image_query: (deep.image_query as string) || (o.image_query as string) };
     });
   }
-  return outline.slides;
+  // FALLBACK: bulk expand failed (likely rate-limited). Expand in small batches so
+  // we don't ship slides with empty body/bullets to the user.
+  console.warn("[expandDeep] bulk failed, expanding in batches");
+  const result = [...outline.slides];
+  const BATCH = 3;
+  for (let i = 0; i < outline.slides.length; i += BATCH) {
+    const batch = outline.slides.slice(i, i + BATCH);
+    const batchOut = await aiJson<{ slides?: RawSlide[] }>([
+      { role: "system", content: sys },
+      { role: "user", content: `Topic: ${topic}\nOutline:\n${JSON.stringify({ slides: batch }, null, 2)}\n${content ? `Reference material:\n${content.slice(0, 5000)}` : ""}` },
+    ]);
+    if (batchOut?.slides?.length) {
+      for (let j = 0; j < batch.length; j++) {
+        const deep = batchOut.slides[j];
+        if (deep) result[i + j] = { ...result[i + j], ...deep, image_query: (deep.image_query as string) || (result[i + j].image_query as string) };
+      }
+    }
+    // small pacing delay between batches to avoid hammering the rate limit
+    await new Promise((r) => setTimeout(r, 400));
+  }
+  return result;
 }
 
 /* ────────────────────────────────────────────────────────── */
@@ -623,7 +660,7 @@ serve(async (req) => {
         });
         // Dedup URLs across the entire deck so the same photo never appears twice.
         const usedUrls = new Set<string>();
-        const CONCURRENCY = 6;
+        const CONCURRENCY = 2;
         // Process sequentially-batched so usedUrls grows between batches and later
         // slides actually see what earlier ones picked.
         for (let i = 0; i < slidesNeedingImage.length; i += CONCURRENCY) {
