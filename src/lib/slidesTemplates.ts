@@ -40,24 +40,16 @@ export const PREMIUM_HTML_TEMPLATES: SlidesTemplate[] = [
   { id: "premium-aiventraq",       name: "Aiventraq Automation",description: "AI automation, dark + emerald glow",  colors: ["#06070d", "#10b981"], category: "premium", htmlSlug: "remix-aiventraq-ai-automation" },
 ];
 
-/** Megsy Illustrated Deck — internal multi-slide deck inspired by the
- *  Modern Illustrated Critical Thinking design (beige #E5DACF, black, Mali + Rubik). */
+/** Megsy Deck — flagship template that mirrors the megsy.ai landing page
+ *  (pitch-black bg, electric purple primary, Space Grotesk display). */
 export const MEGSY_DECK_TEMPLATES: SlidesTemplate[] = [
   {
-    id: "premium-megsy-illustrated",
-    name: "Megsy Illustrated",
-    description: "Beige + black, illustrated characters, Mali serif headlines",
-    colors: ["#E5DACF", "#000000"],
+    id: "premium-megsy-landing",
+    name: "Megsy",
+    description: "Pitch black + electric purple, Space Grotesk — landing-page look",
+    colors: ["#000000", "#8b5cf6"],
     category: "premium",
-    htmlSlug: "megsy-illustrated-deck",
-  },
-  {
-    id: "premium-odyssey-classical",
-    name: "Odyssey Classical",
-    description: "Parchment + teal + terracotta, Cormorant serif, Greek-key motifs",
-    colors: ["#f0e6d2", "#1d4a52"],
-    category: "premium",
-    htmlSlug: "odyssey-classical-deck",
+    htmlSlug: "megsy-landing-deck",
   },
 ];
 
@@ -66,7 +58,7 @@ export const SLIDES_TEMPLATES: SlidesTemplate[] = [
   ...PREMIUM_HTML_TEMPLATES,
 ];
 
-export const DEFAULT_SLIDES_TEMPLATE = "premium-megsy-illustrated";
+export const DEFAULT_SLIDES_TEMPLATE = "premium-megsy-landing";
 
 export function findSlidesTemplate(id?: string | null): SlidesTemplate {
   return SLIDES_TEMPLATES.find((t) => t.id === id) || PREMIUM_HTML_TEMPLATES[0];
