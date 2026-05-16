@@ -1,1 +1,11 @@
 project_id = "ltgampdtawuefwwayncx"
+
+[functions.build-agent]
+verify_jwt = true
+
+
+[functions.chat]
+verify_jwt = true
+
+[functions.chat-slides-stream]
+verify_jwt = true
