@@ -477,7 +477,7 @@ const SLIDE_BASE_CSS = (p: SlideDeck["palette"]) => `
   .lov-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
   /* Cover */
-  .lov-cover { min-height: 100vh; }
+  .lov-cover { min-height: 0; }
   .lov-cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.42; z-index: 0; }
   .lov-cover-veil {
     position: absolute; inset: 0; z-index: 1;
@@ -697,7 +697,7 @@ const SLIDE_BASE_CSS = (p: SlideDeck["palette"]) => `
   .lov-tri-text { font-size: clamp(16px, 1.3vw, 22px); line-height: 1.5; margin: 0; opacity: 0.92; }
   @media (max-width: 900px) { .lov-three-grid { grid-template-columns: 1fr; } }
 
-  .lov-imgfull { padding: 0; min-height: 100vh; }
+  .lov-imgfull { padding: 0; min-height: 0; }
   .lov-imgfull-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
   .lov-imgfull-veil { position: absolute; inset: 0; z-index: 1; background: linear-gradient(135deg, color-mix(in oklab, var(--lov-bg) 88%, transparent), color-mix(in oklab, var(--lov-bg) 40%, transparent)); }
   .lov-imgfull .lov-content { padding: 9vh 6vw; max-width: 1200px; }
