@@ -435,13 +435,13 @@ ${sectionRule}
     { role: "system", content: sys }, { role: "user", content: user },
   ]);
   if (!out || !Array.isArray(out.slides) || out.slides.length === 0) {
-    // Skeleton fallback so the user never sees a 2-slide stub when AI fails.
+    // Topic-specific fallback so the user never sees a blank/placeholder deck when AI fails.
     const target = requestedCount && requestedCount > 0 ? requestedCount : 8;
-    const skeleton: RawSlide[] = [{ type: "cover", title: topic, image_query: "abstract" }];
+    const skeleton: RawSlide[] = [{ type: "cover", title: topic, subtitle: language === "ar" ? "عرض مُنشأ بعناية" : "A focused generated deck", image_query: `${topic} portrait context` }];
     for (let i = 1; i < target - 1; i++) {
-      skeleton.push({ type: "content", title: `${topic} — ${i}`, image_query: "abstract concept" });
+      skeleton.push(fallbackSlide(topic, language, i));
     }
-    skeleton.push({ type: "closing", title: "Thank You" });
+    skeleton.push({ type: "closing", title: language === "ar" ? "شكرًا" : "Thank You", subtitle: language === "ar" ? `انتهى عرض ${topic}` : `End of the ${topic} deck` });
     return { title: topic, language, slides: skeleton };
   }
   // Hard cap at 50 to prevent runaway costs
@@ -533,12 +533,9 @@ serve(async (req) => {
       status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-  // Resolve template: standard-* templates are mapped to a premium HTML shell.
+  // Resolve template: Standard templates were removed, so only shipped premium templates are accepted.
   const rawId = typeof templateId === "string" ? templateId : "";
-  const mapped = STANDARD_TO_PREMIUM[rawId];
-  const tplId = mapped
-    ? mapped
-    : (REACT_TEMPLATES.has(rawId) ? rawId : "premium-vanta-atelier");
+  const tplId = REACT_TEMPLATES.has(rawId) ? rawId : "premium-megsy-illustrated";
   const palette = PALETTES[tplId];
 
   // Decide if user pasted a long report (>=400 chars) → treat as material to expand from.
