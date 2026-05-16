@@ -601,7 +601,8 @@ serve(async (req) => {
         sendNarrate("\n\n");
 
         /* ── Phase 6: deep content ───────────────────────── */
-        const deepSlides = await expandDeep(outline, subject, corpus);
+        let deepSlides = await expandDeep(outline, subject, corpus);
+        deepSlides = await repairSlides(deepSlides, subject, lang, corpus);
 
         /* ── Phase 7: images ─────────────────────────────── */
         send({ type: "phase", name: "images" });
@@ -687,6 +688,7 @@ Only include slides that NEED fixing. Empty fixes array is fine. Keep the user's
               tgt.bullets = f.bullets.filter(b => typeof b === "string" && b.trim()).slice(0, 7);
             }
           }
+          deepSlides = await repairSlides(deepSlides, subject, lang, corpus);
         } catch (e) { console.warn("[review] failed", e); }
 
         /* ── Phase 8: finalize narrative ─────────────────── */
