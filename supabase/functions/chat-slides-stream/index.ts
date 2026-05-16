@@ -30,6 +30,7 @@ const REACT_TEMPLATES = new Set([
   "premium-silent-wealth", "premium-aiventraq",
   "premium-megsy", "premium-glass-pitch", "premium-cinema-3d",
   "premium-megsy-illustrated",
+  "premium-retro-y2k-pixel",
 ]);
 
 const PALETTES: Record<string, { primary: string; accent: string; bg: string; fg: string }> = {
