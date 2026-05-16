@@ -44,7 +44,7 @@ const SlidesTemplateSheet = ({ open, selectedId, onSelect, onClose }: Props) => 
                           src={`/templates/${t.htmlSlug}/preview.png`}
                           alt=""
                           loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover"
+                          className="absolute inset-0 w-full h-full object-contain p-1"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                         />
                       )}
