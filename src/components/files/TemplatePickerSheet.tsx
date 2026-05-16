@@ -117,13 +117,13 @@ const TemplatePickerSheet = ({
                       active ? "border-primary ring-2 ring-primary/30" : "border-border/50 hover:border-foreground/30"
                     }`}
                   >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden" style={fallbackStyle(t)}>
+                    <div className="relative w-full aspect-[4/3] overflow-hidden flex items-center justify-center" style={fallbackStyle(t)}>
                       {t.preview ? (
                         <img
                           src={t.preview}
                           alt=""
                           loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover"
+                          className="absolute inset-0 w-full h-full object-contain p-1.5"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                         />
                       ) : null}
