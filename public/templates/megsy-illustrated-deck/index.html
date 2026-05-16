@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Megsy Illustrated Deck</title>
+
+    <!-- Fonts: Mali for serif headlines, Rubik for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,400;0,500;0,600;0,700;1,500;1,700&family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style id="megsy-illustrated-base">
+      /* ─── Megsy Illustrated visual identity ──────────────────────────
+         Beige paper + ink-black + hand-drawn character illustrations.
+         Inspired by the Critical Thinking design system.
+         These styles override the renderer's defaults via .lov-deck scope. */
+
+      :root {
+        --megsy-paper: #E5DACF;
+        --megsy-ink: #0a0a0a;
+        --megsy-ink-soft: #2d2926;
+        --megsy-accent: #c45a3a;
+        --megsy-card: #f1e9df;
+        --megsy-shadow: 0 6px 0 var(--megsy-ink);
+      }
+
+      html, body { background: var(--megsy-paper); margin: 0; }
+
+      .lov-deck {
+        background: var(--megsy-paper) !important;
+        color: var(--megsy-ink) !important;
+        font-family: "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif !important;
+      }
+
+      .lov-deck .lov-section {
+        background: var(--megsy-paper) !important;
+        color: var(--megsy-ink) !important;
+        position: relative;
+      }
+
+      /* Decorative paper texture via subtle radial dots (printed-paper feel) */
+      .lov-deck .lov-section::before {
+        content: "";
+        position: absolute; inset: 0;
+        background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
+        background-size: 22px 22px;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .lov-deck .lov-section > * { position: relative; z-index: 1; }
+
+      /* Typography — Mali for headlines, Rubik for body */
+      .lov-deck .lov-h1,
+      .lov-deck .lov-h2,
+      .lov-deck .lov-quote,
+      .lov-deck .lov-bignum-value {
+        font-family: "Mali", "Rubik", serif !important;
+        color: var(--megsy-ink) !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.01em;
+      }
+
+      .lov-deck .lov-h1 { font-size: clamp(56px, 7vw, 112px) !important; line-height: 1.05 !important; }
+      .lov-deck .lov-h2 { font-size: clamp(40px, 4.5vw, 72px) !important; line-height: 1.1 !important; }
+
+      .lov-deck .lov-subtitle,
+      .lov-deck .lov-body,
+      .lov-deck .lov-bullets li {
+        font-family: "Rubik", sans-serif !important;
+        color: var(--megsy-ink-soft) !important;
+        font-weight: 400 !important;
+      }
+
+      .lov-deck .lov-kicker,
+      .lov-deck .lov-index {
+        font-family: "Mali", serif !important;
+        color: var(--megsy-accent) !important;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700 !important;
+      }
+
+      /* Cards & callouts get a chunky ink border + offset drop-shadow */
+      .lov-deck .lov-callout,
+      .lov-deck .lov-three > *,
+      .lov-deck .lov-twocol > *,
+      .lov-deck .lov-stats-section .lov-stat {
+        background: var(--megsy-card) !important;
+        border: 2px solid var(--megsy-ink) !important;
+        border-radius: 18px !important;
+        box-shadow: var(--megsy-shadow) !important;
+        color: var(--megsy-ink) !important;
+      }
+
+      /* Images: ink-outlined, rounded — to match the hand-drawn feel */
+      .lov-deck .lov-media,
+      .lov-deck img {
+        border-radius: 16px;
+      }
+      .lov-deck .lov-media {
+        border: 2px solid var(--megsy-ink);
+        box-shadow: var(--megsy-shadow);
+        background: var(--megsy-card);
+        overflow: hidden;
+      }
+
+      /* Cover hero — center-stacked with hero illustration behind */
+      .lov-deck .lov-cover {
+        background:
+          radial-gradient(circle at 75% 35%, rgba(196, 90, 58, 0.18), transparent 55%),
+          var(--megsy-paper) !important;
+      }
+      .lov-deck .lov-cover .lov-h1 {
+        font-style: italic;
+        text-shadow: 4px 4px 0 rgba(196, 90, 58, 0.18);
+      }
+
+      /* Section dividers (big numbered openers like 01 OVERVIEW) */
+      .lov-deck .lov-section[data-layout="section-divider"] .lov-h2,
+      .lov-deck .lov-section.lov-content-slide .lov-kicker {
+        font-size: clamp(80px, 12vw, 200px) !important;
+        line-height: 0.9 !important;
+        color: var(--megsy-ink) !important;
+        font-family: "Mali", serif !important;
+        font-style: italic;
+      }
+
+      /* Bullets — hand-drawn checklist feel */
+      .lov-deck .lov-bullets li::before {
+        background: var(--megsy-accent) !important;
+        border-radius: 4px !important;
+        transform: rotate(-3deg);
+      }
+
+      /* Footer index "01 / 18" — small inked tag */
+      .lov-deck .lov-index {
+        background: var(--megsy-ink) !important;
+        color: var(--megsy-paper) !important;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      The renderer (SlidesHtmlDeckCard) wipes this body and injects
+      AI-generated <section class="lov-section"> markup inside <main class="lov-deck">.
+      The visual identity above is what makes the slides feel "Megsy Illustrated".
+      We keep a static fallback section here so the raw template URL is still viewable.
+    -->
+    <main class="lov-deck">
+      <section class="lov-section lov-cover">
+        <div class="lov-content lov-content-center">
+          <div class="lov-kicker">Megsy Illustrated</div>
+          <h1 class="lov-h1">Critical Thinking</h1>
+          <p class="lov-subtitle">Enhancing analytical skills for better decision-making.</p>
+        </div>
+        <img src="assets/hero-thinker.jpg" alt="" style="position:absolute; right:6%; bottom:6%; width:34%; max-width:520px; border-radius:18px; border:2px solid var(--megsy-ink); box-shadow: var(--megsy-shadow);" />
+      </section>
+    </main>
+  </body>
+</html>
