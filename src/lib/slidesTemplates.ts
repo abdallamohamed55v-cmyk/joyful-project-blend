@@ -43,24 +43,22 @@ export const PREMIUM_HTML_TEMPLATES: SlidesTemplate[] = [
   { id: "premium-aiventraq",       name: "Aiventraq Automation",description: "AI automation, dark + emerald glow",  colors: ["#06070d", "#10b981"], category: "premium", htmlSlug: "remix-aiventraq-ai-automation" },
 ];
 
-/** ─── Standard: external docs-design-studio templates ─────────────────── */
-const STANDARD_BASE = "https://docs-design-studio.lovable.app/create/slides";
-export const STANDARD_TEMPLATES: SlidesTemplate[] = [
-  { id: "standard-pitch",        name: "Pitch Deck",      description: "Startup pitch in 8-12 slides",      colors: ["#0f1b3d", "#3b6fa0"], category: "standard", externalUrl: `${STANDARD_BASE}?template=pitch` },
-  { id: "standard-corporate",    name: "Corporate",       description: "Quarterly business review",         colors: ["#1e3a5f", "#e8edf3"], category: "standard", externalUrl: `${STANDARD_BASE}?template=corporate` },
-  { id: "standard-education",    name: "Education",       description: "Lesson / workshop slides",          colors: ["#064e3b", "#c9a84c"], category: "standard", externalUrl: `${STANDARD_BASE}?template=education` },
-  { id: "standard-creative",     name: "Creative",        description: "Bold magazine-style",               colors: ["#dc2626", "#fafaf7"], category: "standard", externalUrl: `${STANDARD_BASE}?template=creative` },
-  { id: "standard-minimal",      name: "Minimal",         description: "Black & white, ultra clean",        colors: ["#000000", "#ffffff"], category: "standard", externalUrl: `${STANDARD_BASE}?template=minimal` },
-  { id: "standard-megsy",        name: "Megsy Style",     description: "Signature dark + gradient",         colors: ["#08070d", "#ec4899"], category: "standard", externalUrl: `${STANDARD_BASE}?template=megsy` },
-  { id: "standard-axiom",        name: "Axiom Network",   description: "White + violet/blue + Syne",        colors: ["#ffffff", "#6366f1"], category: "standard", externalUrl: `${STANDARD_BASE}?template=axiom-network` },
-  { id: "standard-aethon",       name: "Aethon",          description: "Warm sand minimal + terracotta",    colors: ["#f5f0e8", "#c4654a"], category: "standard", externalUrl: `${STANDARD_BASE}?template=aethon-helmet` },
-  { id: "standard-solar",        name: "Solar Explorer",  description: "Cosmic dark, planetary palette",    colors: ["#06070d", "#fb923c"], category: "standard", externalUrl: `${STANDARD_BASE}?template=solar-explorer` },
-  { id: "standard-turbo-930",    name: "Turbo 930",       description: "Auto-magazine, dark + gold stroke", colors: ["#0a0a0a", "#fbbf24"], category: "standard", externalUrl: `${STANDARD_BASE}?template=turbo-930` },
+/** Megsy Illustrated Deck — internal multi-slide deck inspired by the
+ *  Modern Illustrated Critical Thinking design (beige #E5DACF, black, Mali + Rubik). */
+export const MEGSY_DECK_TEMPLATES: SlidesTemplate[] = [
+  {
+    id: "premium-megsy-illustrated",
+    name: "Megsy Illustrated",
+    description: "Beige + black, illustrated characters, Mali serif headlines",
+    colors: ["#E5DACF", "#000000"],
+    category: "premium",
+    htmlSlug: "megsy-illustrated-deck",
+  },
 ];
 
 export const SLIDES_TEMPLATES: SlidesTemplate[] = [
+  ...MEGSY_DECK_TEMPLATES,
   ...PREMIUM_HTML_TEMPLATES,
-  ...STANDARD_TEMPLATES,
 ];
 
 export const DEFAULT_SLIDES_TEMPLATE = "premium-vanta-atelier";
