@@ -61,7 +61,7 @@ export const SLIDES_TEMPLATES: SlidesTemplate[] = [
   ...PREMIUM_HTML_TEMPLATES,
 ];
 
-export const DEFAULT_SLIDES_TEMPLATE = "premium-vanta-atelier";
+export const DEFAULT_SLIDES_TEMPLATE = "premium-megsy-illustrated";
 
 export function findSlidesTemplate(id?: string | null): SlidesTemplate {
   return SLIDES_TEMPLATES.find((t) => t.id === id) || PREMIUM_HTML_TEMPLATES[0];
