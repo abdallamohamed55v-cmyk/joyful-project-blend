@@ -2,9 +2,8 @@
 // "premium" = internal HTML landing-page templates we ship from /public/templates/{slug}/index.html.
 //   Renderer fetches the template HTML, strips nav/header/footer/CTAs, enlarges typography,
 //   and injects AI-generated content (titles, paragraphs, images).
-// "standard" = external API templates (docs-design-studio.lovable.app) — opened in an iframe.
 
-export type SlidesCategory = "premium" | "standard";
+export type SlidesCategory = "premium";
 
 export interface SlidesTemplate {
   id: string;
@@ -15,8 +14,6 @@ export interface SlidesTemplate {
   category: SlidesCategory;
   /** For premium: directory under /public/templates/ that contains index.html (+ optional scene.js). */
   htmlSlug?: string;
-  /** For standard: external builder URL. */
-  externalUrl?: string;
 }
 
 /** ─── Premium: 10 internal HTML landing-page templates ─────────────────── */
