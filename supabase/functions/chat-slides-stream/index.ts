@@ -28,9 +28,7 @@ const REACT_TEMPLATES = new Set([
   "premium-tech-consulting", "premium-cosmetic-laundry", "premium-forma-sofa",
   "premium-baresol", "premium-robotic-tech", "premium-ai-video-gen",
   "premium-silent-wealth", "premium-aiventraq",
-  "premium-megsy", "premium-glass-pitch", "premium-cinema-3d",
-  "premium-megsy-illustrated",
-  "premium-odyssey-classical",
+  "premium-megsy-landing",
 ]);
 
 const PALETTES: Record<string, { primary: string; accent: string; bg: string; fg: string }> = {
@@ -54,11 +52,7 @@ const PALETTES: Record<string, { primary: string; accent: string; bg: string; fg
   "premium-ai-video-gen":    { primary: "#ec4899", accent: "#a78bfa", bg: "#0a0a1a", fg: "#f8f7ff" },
   "premium-silent-wealth":   { primary: "#0d0d0d", accent: "#6b6b6b", bg: "#f5f3ee", fg: "#0d0d0d" },
   "premium-aiventraq":       { primary: "#10b981", accent: "#34d399", bg: "#06070d", fg: "#e8f7ee" },
-  "premium-megsy":           { primary: "#3b82f6", accent: "#ec4899", bg: "#08070d", fg: "#f8fafc" },
-  "premium-glass-pitch":     { primary: "#3b82f6", accent: "#a855f7", bg: "#070b1f", fg: "#f8fafc" },
-  "premium-cinema-3d":       { primary: "#06b6d4", accent: "#f43f5e", bg: "#000814", fg: "#ffffff" },
-  "premium-megsy-illustrated":{ primary: "#0a0a0a", accent: "#c45a3a", bg: "#E5DACF", fg: "#0a0a0a" },
-  "premium-odyssey-classical":{ primary: "#1d4a52", accent: "#b8533a", bg: "#f0e6d2", fg: "#1f2a2e" },
+  "premium-megsy-landing":   { primary: "#8b5cf6", accent: "#ec4899", bg: "#000000", fg: "#ebebeb" },
 };
 
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
@@ -574,7 +568,7 @@ serve(async (req) => {
   }
   // Resolve template: Standard templates were removed, so only shipped premium templates are accepted.
   const rawId = typeof templateId === "string" ? templateId : "";
-  const tplId = REACT_TEMPLATES.has(rawId) ? rawId : "premium-megsy-illustrated";
+  const tplId = REACT_TEMPLATES.has(rawId) ? rawId : "premium-megsy-landing";
   const palette = PALETTES[tplId];
 
   // Decide if user pasted a long report (>=400 chars) → treat as material to expand from.
