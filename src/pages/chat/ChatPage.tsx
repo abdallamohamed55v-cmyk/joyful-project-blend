@@ -3341,7 +3341,6 @@ Ask me anything to get started!`;
           {slidesPickerOpen && (
             <TemplatePickerSheet
               open={slidesPickerOpen}
-              showCategoryTabs
               templates={SLIDES_TEMPLATES.map((t) => ({
                 id: t.id,
                 name: t.name,
