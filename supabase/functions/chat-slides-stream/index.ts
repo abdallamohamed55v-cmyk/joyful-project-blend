@@ -32,21 +32,6 @@ const REACT_TEMPLATES = new Set([
   "premium-megsy-illustrated",
 ]);
 
-// Standard template IDs → premium HTML shell. Picked by visual affinity so the
-// user gets a real generated deck instead of an iframe to an external builder.
-const STANDARD_TO_PREMIUM: Record<string, string> = {
-  "standard-pitch":     "premium-tech-consulting",
-  "standard-corporate": "premium-tech-consulting",
-  "standard-education": "premium-doc-scriptforge",
-  "standard-creative":  "premium-yash-graphic",
-  "standard-minimal":   "premium-doc-scriptforge",
-  "standard-megsy":     "premium-ai-video-gen",
-  "standard-axiom":     "premium-blobs-landing",
-  "standard-aethon":    "premium-landscape-napa",
-  "standard-solar":     "premium-robotic-tech",
-  "standard-turbo-930": "premium-vanta-atelier",
-};
-
 const PALETTES: Record<string, { primary: string; accent: string; bg: string; fg: string }> = {
   "premium-vanta-atelier":   { primary: "#c9a84c", accent: "#f0d78c", bg: "#0a0a0a", fg: "#f5f0e0" },
   "premium-verdana-3d":      { primary: "#a8d63b", accent: "#5a8a5c", bg: "#0a0e08", fg: "#e8ece4" },
@@ -314,6 +299,66 @@ async function findImage(q: string | undefined): Promise<string | null> {
 
 type RawSlide = Record<string, unknown> & { type?: string; title?: string; body?: string; bullets?: string[] };
 
+const PLACEHOLDER_PATTERNS = [
+  /abstract\s+concepts?/i,
+  /an\s+abstract\s+concept\s+is\s+an\s+idea/i,
+  /\blove:\s*a\s+profound\s+emotional/i,
+  /\bjustice:\s*the\s+concept\s+of\s+fairness/i,
+  /definition\s+examples/i,
+  /lorem\s+ipsum/i,
+  /placeholder/i,
+];
+
+function textParts(value: unknown): string[] {
+  if (typeof value === "string") return [value];
+  if (Array.isArray(value)) return value.flatMap(textParts);
+  if (value && typeof value === "object") return Object.values(value as Record<string, unknown>).flatMap(textParts);
+  return [];
+}
+
+function slideText(slide: RawSlide): string {
+  return textParts(slide).join(" \n ").replace(/\s+/g, " ").trim();
+}
+
+function hasRealContent(slide: RawSlide): boolean {
+  const text = slideText(slide);
+  const wordCount = (text.match(/[\p{Letter}\p{Number}]+/gu) || []).length;
+  if (wordCount < 12 && slide.type !== "cover" && slide.type !== "closing") return false;
+  return !PLACEHOLDER_PATTERNS.some((re) => re.test(text));
+}
+
+function fallbackSlide(topic: string, lang: string, idx: number, type = "content"): RawSlide {
+  const ar = lang === "ar";
+  const templates = ar ? [
+    { title: `لمحة أساسية عن ${topic}`, subtitle: "تحديد السياق قبل الدخول في التفاصيل.", body: `تشرح هذه الشريحة لماذا يُعد ${topic} مهمًا، وما الخلفية التي يحتاجها الجمهور لفهم الفكرة الرئيسية بوضوح.`, bullets: ["السياق العام والسبب وراء اختيار الموضوع", "الفكرة المركزية التي سيبنى عليها العرض", "أهم سؤال يجب أن يخرج به الجمهور"] },
+    { title: `محاور ${topic} الرئيسية`, subtitle: "تقسيم الموضوع إلى نقاط قابلة للفهم.", body: `يركّز هذا الجزء على تفكيك ${topic} إلى محاور عملية تساعد الجمهور على رؤية الصورة الكبيرة بدون حشو أو تكرار.`, bullets: ["المحور الأول: الخلفية والدلالة", "المحور الثاني: التأثير والنتائج", "المحور الثالث: ما الذي يجب تذكّره"] },
+    { title: `ما الذي يغيّر الصورة؟`, subtitle: "النقطة التي تجعل الموضوع يستحق الانتباه.", body: `هنا نبرز التحول أو الفكرة المفصلية داخل ${topic}، مع صياغة مباشرة تصلح كسلايد مستقل ومفيد.`, bullets: ["تحديد التحول الأساسي", "ربط الفكرة بتجربة الجمهور", "تقديم نتيجة واضحة بدل كلام عام"] },
+  ] : [
+    { title: `${topic}: essential context`, subtitle: "Set the frame before going deeper.", body: `This slide explains why ${topic} matters and gives the audience enough context to understand the core idea without filler.`, bullets: ["The background behind the topic", "The central idea the deck builds on", "The key question the audience should remember"] },
+    { title: `Core themes in ${topic}`, subtitle: "Break the subject into useful parts.", body: `This section turns ${topic} into practical themes so the audience can see the big picture clearly and quickly.`, bullets: ["Theme one: context and meaning", "Theme two: impact and results", "Theme three: what to remember"] },
+    { title: `What changes the picture?`, subtitle: "The idea that makes the subject worth attention.", body: `This slide highlights the pivotal shift inside ${topic}, written as a complete slide rather than a generic placeholder.`, bullets: ["Identify the main shift", "Connect the idea to the audience", "End with a clear takeaway"] },
+  ];
+  return { type, layout: "two-col", variant: "paper", accent: "left", kicker: `${String(idx + 1).padStart(2, "0")}`, image_query: `${topic} documentary context`, ...templates[idx % templates.length] };
+}
+
+async function repairSlides(slides: RawSlide[], topic: string, lang: string, corpus: string): Promise<RawSlide[]> {
+  const bad = slides.map((s, i) => ({ s, i })).filter(({ s }) => !hasRealContent(s));
+  if (!bad.length) return slides;
+  const out = await aiJson<{ slides?: RawSlide[] }>([
+    { role: "system", content: `Rewrite invalid presentation slides as real, topic-specific content. Output JSON only: {"slides":[{"i":number,"slide":{...}}]}. Keep language ${lang}. No placeholders, no abstract concept examples unless the user's topic is literally abstract concepts.` },
+    { role: "user", content: `Topic: ${topic}\nReference:\n${corpus.slice(0, 6000)}\nInvalid slides:\n${JSON.stringify(bad.map(({ s, i }) => ({ i, slide: s })), null, 1).slice(0, 8000)}` },
+  ]);
+  const repaired = Array.isArray(out?.slides) ? out!.slides! : [];
+  const next = [...slides];
+  for (const item of repaired) {
+    const i = Number((item as { i?: number }).i);
+    const slide = (item as { slide?: RawSlide }).slide;
+    if (Number.isFinite(i) && i >= 0 && i < next.length && slide && hasRealContent(slide)) next[i] = { ...next[i], ...slide };
+  }
+  for (const { i } of bad) if (!hasRealContent(next[i])) next[i] = { ...next[i], ...fallbackSlide(topic, lang, i, next[i]?.type || "content") };
+  return next;
+}
+
 async function buildOutline(topic: string, content: string, language: string, longInputMode: boolean, requestedCount?: number): Promise<{ title?: string; subtitle?: string; language?: string; slides: RawSlide[] }> {
   const lengthRule = requestedCount && requestedCount > 0
     ? `The user EXPLICITLY requested EXACTLY ${requestedCount} slides. You MUST output exactly ${requestedCount} slides — no more, no less. First MUST be "cover", last MUST be "closing".`
@@ -390,13 +435,13 @@ ${sectionRule}
     { role: "system", content: sys }, { role: "user", content: user },
   ]);
   if (!out || !Array.isArray(out.slides) || out.slides.length === 0) {
-    // Skeleton fallback so the user never sees a 2-slide stub when AI fails.
+    // Topic-specific fallback so the user never sees a blank/placeholder deck when AI fails.
     const target = requestedCount && requestedCount > 0 ? requestedCount : 8;
-    const skeleton: RawSlide[] = [{ type: "cover", title: topic, image_query: "abstract" }];
+    const skeleton: RawSlide[] = [{ type: "cover", title: topic, subtitle: language === "ar" ? "عرض مُنشأ بعناية" : "A focused generated deck", image_query: `${topic} portrait context` }];
     for (let i = 1; i < target - 1; i++) {
-      skeleton.push({ type: "content", title: `${topic} — ${i}`, image_query: "abstract concept" });
+      skeleton.push(fallbackSlide(topic, language, i));
     }
-    skeleton.push({ type: "closing", title: "Thank You" });
+    skeleton.push({ type: "closing", title: language === "ar" ? "شكرًا" : "Thank You", subtitle: language === "ar" ? `انتهى عرض ${topic}` : `End of the ${topic} deck` });
     return { title: topic, language, slides: skeleton };
   }
   // Hard cap at 50 to prevent runaway costs
@@ -488,12 +533,9 @@ serve(async (req) => {
       status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-  // Resolve template: standard-* templates are mapped to a premium HTML shell.
+  // Resolve template: Standard templates were removed, so only shipped premium templates are accepted.
   const rawId = typeof templateId === "string" ? templateId : "";
-  const mapped = STANDARD_TO_PREMIUM[rawId];
-  const tplId = mapped
-    ? mapped
-    : (REACT_TEMPLATES.has(rawId) ? rawId : "premium-vanta-atelier");
+  const tplId = REACT_TEMPLATES.has(rawId) ? rawId : "premium-megsy-illustrated";
   const palette = PALETTES[tplId];
 
   // Decide if user pasted a long report (>=400 chars) → treat as material to expand from.
@@ -559,7 +601,8 @@ serve(async (req) => {
         sendNarrate("\n\n");
 
         /* ── Phase 6: deep content ───────────────────────── */
-        const deepSlides = await expandDeep(outline, subject, corpus);
+        let deepSlides = await expandDeep(outline, subject, corpus);
+        deepSlides = await repairSlides(deepSlides, subject, lang, corpus);
 
         /* ── Phase 7: images ─────────────────────────────── */
         send({ type: "phase", name: "images" });
@@ -645,6 +688,7 @@ Only include slides that NEED fixing. Empty fixes array is fine. Keep the user's
               tgt.bullets = f.bullets.filter(b => typeof b === "string" && b.trim()).slice(0, 7);
             }
           }
+          deepSlides = await repairSlides(deepSlides, subject, lang, corpus);
         } catch (e) { console.warn("[review] failed", e); }
 
         /* ── Phase 8: finalize narrative ─────────────────── */
