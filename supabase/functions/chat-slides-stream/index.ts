@@ -58,7 +58,7 @@ const PALETTES: Record<string, { primary: string; accent: string; bg: string; fg
   "premium-glass-pitch":     { primary: "#3b82f6", accent: "#a855f7", bg: "#070b1f", fg: "#f8fafc" },
   "premium-cinema-3d":       { primary: "#06b6d4", accent: "#f43f5e", bg: "#000814", fg: "#ffffff" },
   "premium-megsy-illustrated":{ primary: "#0a0a0a", accent: "#c45a3a", bg: "#E5DACF", fg: "#0a0a0a" },
-  "premium-retro-y2k-pixel": { primary: "#5067DC", accent: "#ff5fa2", bg: "#0b1030", fg: "#C4CDFE" },
+  "premium-odyssey-classical":{ primary: "#1d4a52", accent: "#b8533a", bg: "#f0e6d2", fg: "#1f2a2e" },
 };
 
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
