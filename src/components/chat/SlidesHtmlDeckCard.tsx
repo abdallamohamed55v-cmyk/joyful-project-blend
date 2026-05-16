@@ -412,12 +412,30 @@ const SLIDE_BASE_CSS = (p: SlideDeck["palette"]) => `
   }
 
   /* ── Lov slide content ─────────────────────────────────────────── */
-  .lov-deck { position: relative; z-index: 1; min-height: 100vh; height: auto !important; overflow: visible !important; }
+  /* Each slide is a fixed 16:9 landscape card — never stretches to viewport height,
+     so on mobile the slide stays a proper presentation rectangle instead of a tall vertical column. */
+  .lov-deck { position: relative; z-index: 1; min-height: 0; height: auto !important; overflow: visible !important; }
   .lov-section {
-    position: relative; min-height: 100vh; padding: 9vh 6vw;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+    max-height: none;
+    padding: 5% 6%;
     display: flex; align-items: center; justify-content: center;
     border-bottom: 1px solid color-mix(in oklab, var(--lov-fg) 8%, transparent);
+    overflow: hidden;
+    container-type: inline-size;
   }
+  /* Scale typography to the slide width (cqw) instead of viewport,
+     so text shrinks correctly when the 16:9 card is narrow on mobile. */
+  .lov-section .lov-h1 { font-size: clamp(28px, 7cqw, 168px) !important; line-height: 1.0 !important; }
+  .lov-section .lov-h2 { font-size: clamp(22px, 5.2cqw, 112px) !important; line-height: 1.05 !important; }
+  .lov-section .lov-h3 { font-size: clamp(18px, 3.2cqw, 64px) !important; line-height: 1.15 !important; }
+  .lov-section .lov-subtitle { font-size: clamp(12px, 1.8cqw, 32px) !important; line-height: 1.4 !important; }
+  .lov-section .lov-body,
+  .lov-section .lov-bullets li { font-size: clamp(11px, 1.5cqw, 26px) !important; line-height: 1.45 !important; }
+  .lov-section .lov-kicker { font-size: clamp(9px, 0.9cqw, 16px) !important; margin-bottom: 0.8rem; }
   .lov-content { width: 100%; max-width: 1680px; position: relative; z-index: 2; }
   .lov-content-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
   .lov-kicker {
