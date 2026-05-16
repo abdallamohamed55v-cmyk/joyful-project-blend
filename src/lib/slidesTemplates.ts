@@ -52,12 +52,12 @@ export const MEGSY_DECK_TEMPLATES: SlidesTemplate[] = [
     htmlSlug: "megsy-illustrated-deck",
   },
   {
-    id: "premium-retro-y2k-pixel",
-    name: "Retro Y2K Pixel",
-    description: "Y2K game console, pixel art + Press Start 2P, neon blue",
-    colors: ["#0b1030", "#5067DC"],
+    id: "premium-odyssey-classical",
+    name: "Odyssey Classical",
+    description: "Parchment + teal + terracotta, Cormorant serif, Greek-key motifs",
+    colors: ["#f0e6d2", "#1d4a52"],
     category: "premium",
-    htmlSlug: "retro-y2k-pixel-deck",
+    htmlSlug: "odyssey-classical-deck",
   },
 ];
 
