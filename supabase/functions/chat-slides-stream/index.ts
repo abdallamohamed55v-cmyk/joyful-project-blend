@@ -29,6 +29,7 @@ const REACT_TEMPLATES = new Set([
   "premium-baresol", "premium-robotic-tech", "premium-ai-video-gen",
   "premium-silent-wealth", "premium-aiventraq",
   "premium-megsy", "premium-glass-pitch", "premium-cinema-3d",
+  "premium-megsy-illustrated",
 ]);
 
 // Standard template IDs → premium HTML shell. Picked by visual affinity so the
