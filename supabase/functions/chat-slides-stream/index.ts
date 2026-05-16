@@ -32,21 +32,6 @@ const REACT_TEMPLATES = new Set([
   "premium-megsy-illustrated",
 ]);
 
-// Standard template IDs → premium HTML shell. Picked by visual affinity so the
-// user gets a real generated deck instead of an iframe to an external builder.
-const STANDARD_TO_PREMIUM: Record<string, string> = {
-  "standard-pitch":     "premium-tech-consulting",
-  "standard-corporate": "premium-tech-consulting",
-  "standard-education": "premium-doc-scriptforge",
-  "standard-creative":  "premium-yash-graphic",
-  "standard-minimal":   "premium-doc-scriptforge",
-  "standard-megsy":     "premium-ai-video-gen",
-  "standard-axiom":     "premium-blobs-landing",
-  "standard-aethon":    "premium-landscape-napa",
-  "standard-solar":     "premium-robotic-tech",
-  "standard-turbo-930": "premium-vanta-atelier",
-};
-
 const PALETTES: Record<string, { primary: string; accent: string; bg: string; fg: string }> = {
   "premium-vanta-atelier":   { primary: "#c9a84c", accent: "#f0d78c", bg: "#0a0a0a", fg: "#f5f0e0" },
   "premium-verdana-3d":      { primary: "#a8d63b", accent: "#5a8a5c", bg: "#0a0e08", fg: "#e8ece4" },
