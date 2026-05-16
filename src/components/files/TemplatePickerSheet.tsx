@@ -143,6 +143,12 @@ const TemplatePickerSheet = ({
                         </span>
                       )}
                     </div>
+                    <div className="px-2.5 py-2 bg-card">
+                      <p className="text-[12px] font-semibold text-foreground truncate leading-tight">{t.name}</p>
+                      {t.description && (
+                        <p className="text-[10px] text-muted-foreground truncate mt-0.5">{t.description}</p>
+                      )}
+                    </div>
                   </button>
                 );
               })}
