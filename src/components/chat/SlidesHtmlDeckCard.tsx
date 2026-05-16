@@ -412,12 +412,30 @@ const SLIDE_BASE_CSS = (p: SlideDeck["palette"]) => `
   }
 
   /* ── Lov slide content ─────────────────────────────────────────── */
-  .lov-deck { position: relative; z-index: 1; min-height: 100vh; height: auto !important; overflow: visible !important; }
+  /* Each slide is a fixed 16:9 landscape card — never stretches to viewport height,
+     so on mobile the slide stays a proper presentation rectangle instead of a tall vertical column. */
+  .lov-deck { position: relative; z-index: 1; min-height: 0; height: auto !important; overflow: visible !important; }
   .lov-section {
-    position: relative; min-height: 100vh; padding: 9vh 6vw;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+    max-height: none;
+    padding: 5% 6%;
     display: flex; align-items: center; justify-content: center;
     border-bottom: 1px solid color-mix(in oklab, var(--lov-fg) 8%, transparent);
+    overflow: hidden;
+    container-type: inline-size;
   }
+  /* Scale typography to the slide width (cqw) instead of viewport,
+     so text shrinks correctly when the 16:9 card is narrow on mobile. */
+  .lov-section .lov-h1 { font-size: clamp(28px, 7cqw, 168px) !important; line-height: 1.0 !important; }
+  .lov-section .lov-h2 { font-size: clamp(22px, 5.2cqw, 112px) !important; line-height: 1.05 !important; }
+  .lov-section .lov-h3 { font-size: clamp(18px, 3.2cqw, 64px) !important; line-height: 1.15 !important; }
+  .lov-section .lov-subtitle { font-size: clamp(12px, 1.8cqw, 32px) !important; line-height: 1.4 !important; }
+  .lov-section .lov-body,
+  .lov-section .lov-bullets li { font-size: clamp(11px, 1.5cqw, 26px) !important; line-height: 1.45 !important; }
+  .lov-section .lov-kicker { font-size: clamp(9px, 0.9cqw, 16px) !important; margin-bottom: 0.8rem; }
   .lov-content { width: 100%; max-width: 1680px; position: relative; z-index: 2; }
   .lov-content-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
   .lov-kicker {
@@ -459,7 +477,7 @@ const SLIDE_BASE_CSS = (p: SlideDeck["palette"]) => `
   .lov-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
   /* Cover */
-  .lov-cover { min-height: 100vh; }
+  .lov-cover { min-height: 0; }
   .lov-cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.42; z-index: 0; }
   .lov-cover-veil {
     position: absolute; inset: 0; z-index: 1;
@@ -679,7 +697,7 @@ const SLIDE_BASE_CSS = (p: SlideDeck["palette"]) => `
   .lov-tri-text { font-size: clamp(16px, 1.3vw, 22px); line-height: 1.5; margin: 0; opacity: 0.92; }
   @media (max-width: 900px) { .lov-three-grid { grid-template-columns: 1fr; } }
 
-  .lov-imgfull { padding: 0; min-height: 100vh; }
+  .lov-imgfull { padding: 0; min-height: 0; }
   .lov-imgfull-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
   .lov-imgfull-veil { position: absolute; inset: 0; z-index: 1; background: linear-gradient(135deg, color-mix(in oklab, var(--lov-bg) 88%, transparent), color-mix(in oklab, var(--lov-bg) 40%, transparent)); }
   .lov-imgfull .lov-content { padding: 9vh 6vw; max-width: 1200px; }
