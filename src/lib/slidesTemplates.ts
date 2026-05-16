@@ -16,7 +16,7 @@ export interface SlidesTemplate {
   htmlSlug?: string;
 }
 
-/** ─── Premium: 10 internal HTML landing-page templates ─────────────────── */
+/** ─── Premium: internal HTML landing-page templates ─────────────────────── */
 export const PREMIUM_HTML_TEMPLATES: SlidesTemplate[] = [
   { id: "premium-vanta-atelier",   name: "Vanta Atelier",     description: "Editorial dark luxury, gold serif",   colors: ["#0a0a0a", "#c9a84c"], category: "premium", htmlSlug: "remix-vanta-digital-atelier" },
   { id: "premium-verdana-3d",      name: "Verdana 3D",        description: "Botanical dark, lime three.js",       colors: ["#0a0e08", "#a8d63b"], category: "premium", htmlSlug: "remix-3d-website-the-digital-o" },
@@ -38,6 +38,29 @@ export const PREMIUM_HTML_TEMPLATES: SlidesTemplate[] = [
   { id: "premium-ai-video-gen",    name: "AI Video Studio",    description: "AI generator, neon gradient hero",     colors: ["#0a0a1a", "#ec4899"], category: "premium", htmlSlug: "remix-ai-video-generator-websi" },
   { id: "premium-silent-wealth",   name: "Silent Wealth",      description: "Quiet luxury, paper + ink serif",      colors: ["#f5f3ee", "#0d0d0d"], category: "premium", htmlSlug: "remix-silent-wealth" },
   { id: "premium-aiventraq",       name: "Aiventraq Automation",description: "AI automation, dark + emerald glow",  colors: ["#06070d", "#10b981"], category: "premium", htmlSlug: "remix-aiventraq-ai-automation" },
+  { id: "premium-3d-car-scroll",    name: "3D Car Scroll",      description: "Cinematic automotive scroll, chrome black", colors: ["#050505", "#d9d9d9"], category: "premium", htmlSlug: "remix-3d-car-scroll-website" },
+  { id: "premium-3d-portfolio-builder", name: "3D Portfolio Builder", description: "Immersive portfolio builder, neon depth", colors: ["#080816", "#60a5fa"], category: "premium", htmlSlug: "remix-3d-portfolio-website-bui" },
+  { id: "premium-vinyl-camera",     name: "Vinyl Camera",       description: "Analog vinyl mood, camera-ref motion", colors: ["#111111", "#f59e0b"], category: "premium", htmlSlug: "remix-3d-vinyl-with-camera-ref" },
+  { id: "premium-ai-builder",       name: "AI Website Builder",  description: "Unlimited AI builder SaaS hero", colors: ["#0a0a1a", "#38bdf8"], category: "premium", htmlSlug: "remix-ai-website-builder-unlim" },
+  { id: "premium-graphic-designer", name: "Graphic Designer",    description: "Animated creative portfolio, bold color", colors: ["#111827", "#fb7185"], category: "premium", htmlSlug: "remix-animated-graphic-designer" },
+  { id: "premium-water-circle",     name: "Water Circle",       description: "3D water circle, liquid blue motion", colors: ["#06213a", "#67e8f9"], category: "premium", htmlSlug: "remix-circle-of-water-3d-websi" },
+  { id: "premium-comic-hero",       name: "Comic Hero",         description: "Comic-inspired cinematic web poster", colors: ["#0b1020", "#ef4444"], category: "premium", htmlSlug: "remix-cool-spiderman-website" },
+  { id: "premium-flavora",          name: "Flavora Meal",       description: "Interactive food landing, fresh and warm", colors: ["#18230f", "#f97316"], category: "premium", htmlSlug: "remix-flavora-interactive-meal" },
+  { id: "premium-game-launch",      name: "Game Launch",        description: "High-energy gaming page, neon action", colors: ["#09090b", "#a855f7"], category: "premium", htmlSlug: "remix-game-landing-page-design" },
+  { id: "premium-digital-marketplace", name: "Digital Marketplace", description: "Interactive 3D marketplace, cyber commerce", colors: ["#050816", "#22d3ee"], category: "premium", htmlSlug: "remix-interactive-3d-digital-m" },
+  { id: "premium-helmet-showcase",  name: "Helmet Showcase",    description: "Interactive 3D product helmet showcase", colors: ["#0f172a", "#facc15"], category: "premium", htmlSlug: "remix-interactive-3d-helmet-sh" },
+  { id: "premium-portfolio-3d",     name: "Portfolio 3D",       description: "Interactive 3D personal portfolio", colors: ["#020617", "#2dd4bf"], category: "premium", htmlSlug: "remix-interactive-3d-portfolio" },
+  { id: "premium-logic-cube",       name: "Logic Cube",         description: "Floating cube, abstract tech geometry", colors: ["#0b0b12", "#f8fafc"], category: "premium", htmlSlug: "remix-logic-cube-floating" },
+  { id: "premium-modern-ai-visible", name: "Modern AI Visible", description: "Modern AI brand, clean luminous sections", colors: ["#f8fafc", "#2563eb"], category: "premium", htmlSlug: "remix-modern-ai-visible-websit" },
+  { id: "premium-neon-portfolio",   name: "Neon Portfolio",     description: "Neon UI designer portfolio, dark glow", colors: ["#050505", "#39ff14"], category: "premium", htmlSlug: "remix-neon-portfolio-for-ui-de" },
+  { id: "premium-noodles",          name: "Noodles Splash",     description: "Playful noodles splash page, vivid food", colors: ["#fef3c7", "#ef4444"], category: "premium", htmlSlug: "remix-noodles-splash-page" },
+  { id: "premium-buoy-data",        name: "Ocean Buoy Data",    description: "Real-time ocean buoy dashboard aesthetic", colors: ["#0c2340", "#5cbdb9"], category: "premium", htmlSlug: "remix-real-time-ocean-buoy-dat" },
+  { id: "premium-abstract-vector",  name: "Abstract Vector",    description: "Abstract vector neon design system", colors: ["#0b1020", "#e879f9"], category: "premium", htmlSlug: "remix-remix-abstract-vector-ne" },
+  { id: "premium-science-lab",      name: "Science Lab",        description: "Interactive science lab, bright discovery", colors: ["#061626", "#84cc16"], category: "premium", htmlSlug: "remix-science-lab-website-with" },
+  { id: "premium-velammal",         name: "Velammal",           description: "Institutional editorial engineering site", colors: ["#0f1b3d", "#e8edf3"], category: "premium", htmlSlug: "remix-velammal-engineering-col" },
+  { id: "premium-veloured",         name: "Veloured",           description: "Premium modern minimal landing page", colors: ["#f5f3ee", "#111111"], category: "premium", htmlSlug: "remix-veloured-modern-landing-" },
+  { id: "premium-voxel",            name: "Voxel Website",      description: "Voxel-inspired playful 3D website", colors: ["#101828", "#f97316"], category: "premium", htmlSlug: "remix-voxel-website" },
+  { id: "premium-vary-noodles",     name: "Noodles Variant",    description: "Alternate playful noodles splash layout", colors: ["#fff7ed", "#fb923c"], category: "premium", htmlSlug: "vary-noodles-splash-page" },
 ];
 
 /** Megsy Deck — flagship template that mirrors the megsy.ai landing page

@@ -3341,6 +3341,7 @@ Ask me anything to get started!`;
                 id: t.id,
                 name: t.name,
                 description: t.description,
+                preview: t.htmlSlug ? `/templates/${t.htmlSlug}/preview.png` : undefined,
                 fallbackLabel: t.name,
                 category: t.category,
                 colors: t.colors,
