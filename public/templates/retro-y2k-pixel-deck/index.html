@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Retro Y2K Pixel Deck</title>
+
+    <!-- Press Start 2P for pixel titles, Roboto Mono for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Roboto+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style id="retro-y2k-base">
+      /* =================================================================
+         RETRO Y2K PIXEL — game-console blue + pixel art aesthetic.
+         Press Start 2P titles, Roboto Mono body. Chunky pixel borders,
+         scanline overlay, neon glow. Scoped under .lov-deck.
+         ================================================================= */
+
+      :root {
+        --y2k-bg:        #0b1030;
+        --y2k-bg-2:      #141a45;
+        --y2k-card:      #1a2160;
+        --y2k-card-2:    #232a78;
+        --y2k-primary:   #5067DC;
+        --y2k-primary-2: #98A4E4;
+        --y2k-primary-3: #C4CDFE;
+        --y2k-accent:    #ff5fa2;   /* hot pink */
+        --y2k-accent-2:  #f8e948;   /* coin yellow */
+        --y2k-accent-3:  #4ade80;   /* 1up green */
+        --y2k-ink:       #e8ecff;
+        --y2k-muted:     #98A4E4;
+        --y2k-shadow:    6px 6px 0 var(--y2k-primary);
+        --y2k-shadow-sm: 3px 3px 0 var(--y2k-primary);
+        --y2k-pixel-border: 3px solid var(--y2k-primary-3);
+      }
+
+      html, body { background: var(--y2k-bg); margin: 0; }
+
+      .lov-deck {
+        background: var(--y2k-bg) !important;
+        color: var(--y2k-ink) !important;
+        font-family: "Roboto Mono", ui-monospace, "SF Mono", Menlo, monospace !important;
+        image-rendering: pixelated;
+      }
+
+      .lov-deck .lov-section {
+        background:
+          linear-gradient(180deg, var(--y2k-bg) 0%, var(--y2k-bg-2) 100%) !important;
+        color: var(--y2k-ink) !important;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Scanlines + pixel grid overlay */
+      .lov-deck .lov-section::before {
+        content: "";
+        position: absolute; inset: 0;
+        background-image:
+          repeating-linear-gradient(0deg, rgba(196,205,254,0.04) 0 2px, transparent 2px 4px),
+          linear-gradient(rgba(80,103,220,0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(80,103,220,0.08) 1px, transparent 1px);
+        background-size: 100% 4px, 32px 32px, 32px 32px;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .lov-deck .lov-section::after {
+        content: "";
+        position: absolute; inset: 0;
+        background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(11,16,48,0.6) 100%);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .lov-deck .lov-section > * { position: relative; z-index: 1; }
+
+      /* ── Typography ──────────────────────────────────────────────── */
+      .lov-deck .lov-h1,
+      .lov-deck .lov-h2,
+      .lov-deck .lov-bignum-value,
+      .lov-deck .lov-stat-value {
+        font-family: "Press Start 2P", "VT323", monospace !important;
+        color: var(--y2k-primary-3) !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.02em;
+        text-shadow:
+          3px 3px 0 var(--y2k-primary),
+          6px 6px 0 var(--y2k-accent);
+        line-height: 1.2 !important;
+      }
+      .lov-deck .lov-h3,
+      .lov-deck .lov-quote {
+        font-family: "VT323", "Press Start 2P", monospace !important;
+        color: var(--y2k-primary-3) !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.02em;
+      }
+      .lov-deck .lov-h1 { font-size: clamp(36px, 5vw, 80px) !important; line-height: 1.15 !important; }
+      .lov-deck .lov-h2 { font-size: clamp(28px, 3.5vw, 56px) !important; line-height: 1.2  !important; }
+      .lov-deck .lov-h3 { font-size: clamp(28px, 3vw, 48px) !important;  line-height: 1.15 !important; }
+
+      .lov-deck .lov-subtitle,
+      .lov-deck .lov-body,
+      .lov-deck .lov-bullets li,
+      .lov-deck .lov-stat-label,
+      .lov-deck .lov-cite {
+        font-family: "Roboto Mono", monospace !important;
+        color: var(--y2k-ink) !important;
+        font-weight: 400 !important;
+      }
+      .lov-deck .lov-subtitle { font-size: clamp(18px, 1.6vw, 26px) !important; line-height: 1.5 !important; color: var(--y2k-primary-2) !important; }
+      .lov-deck .lov-body     { font-size: clamp(16px, 1.4vw, 22px) !important; line-height: 1.6 !important; }
+
+      .lov-deck .lov-kicker,
+      .lov-deck .lov-index {
+        font-family: "Press Start 2P", monospace !important;
+        color: var(--y2k-accent-2) !important;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-weight: 400 !important;
+      }
+      .lov-deck .lov-kicker {
+        font-size: clamp(10px, 0.9vw, 14px) !important;
+        margin-bottom: 24px;
+        text-shadow: 2px 2px 0 var(--y2k-bg-2);
+      }
+
+      /* ── Content layout primitives ───────────────────────────────── */
+      .lov-deck .lov-content {
+        padding: clamp(40px, 5vw, 96px);
+        max-width: 1600px;
+        margin: 0 auto;
+        height: 100%;
+        display: flex; flex-direction: column;
+        justify-content: center;
+      }
+      .lov-deck .lov-content-center { text-align: center; align-items: center; }
+
+      /* ── Cards / callouts — chunky pixel border + offset shadow ── */
+      .lov-deck .lov-callout,
+      .lov-deck .lov-three > *,
+      .lov-deck .lov-twocol > *,
+      .lov-deck .lov-stats-section .lov-stat,
+      .lov-deck .lov-process-step,
+      .lov-deck .lov-timeline-item,
+      .lov-deck .lov-gallery-item,
+      .lov-deck .lov-comparison-side {
+        background: var(--y2k-card) !important;
+        border: var(--y2k-pixel-border) !important;
+        border-radius: 0 !important;
+        box-shadow:
+          inset 0 0 0 3px var(--y2k-bg),
+          var(--y2k-shadow) !important;
+        color: var(--y2k-ink) !important;
+        padding: clamp(20px, 2vw, 32px) !important;
+        position: relative;
+      }
+      /* Pixel corner pegs on cards */
+      .lov-deck .lov-callout::before,
+      .lov-deck .lov-three > *::before,
+      .lov-deck .lov-twocol > *::before {
+        content: "";
+        position: absolute;
+        top: -3px; left: -3px;
+        width: 9px; height: 9px;
+        background: var(--y2k-accent);
+        z-index: 2;
+      }
+
+      /* ── Images: pixel-bordered CRT frames ───────────────────────── */
+      .lov-deck .lov-media,
+      .lov-deck img:not(.lov-cover-bg):not(.lov-deco) {
+        border-radius: 0;
+      }
+      .lov-deck .lov-media {
+        border: var(--y2k-pixel-border);
+        box-shadow:
+          inset 0 0 0 3px var(--y2k-bg),
+          var(--y2k-shadow);
+        background: var(--y2k-card);
+        overflow: hidden;
+        position: relative;
+      }
+      .lov-deck .lov-media::after {
+        content: "";
+        position: absolute; inset: 0;
+        background: repeating-linear-gradient(0deg, rgba(11,16,48,0.18) 0 2px, transparent 2px 4px);
+        pointer-events: none;
+        z-index: 2;
+      }
+      .lov-deck .lov-media img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        image-rendering: pixelated;
+        filter: saturate(1.1) contrast(1.05);
+      }
+      .lov-deck .lov-media-empty {
+        display: flex; align-items: center; justify-content: center;
+        color: var(--y2k-accent-2);
+      }
+      .lov-deck .lov-media-empty .lov-star-svg { width: 40%; height: 40%; }
+
+      /* ── Cover ───────────────────────────────────────────────────── */
+      .lov-deck .lov-cover {
+        background:
+          radial-gradient(circle at 70% 30%, rgba(255,95,162,0.25), transparent 50%),
+          radial-gradient(circle at 25% 80%, rgba(248,233,72,0.18), transparent 55%),
+          linear-gradient(180deg, var(--y2k-bg) 0%, #1a2160 100%) !important;
+      }
+      .lov-deck .lov-cover .lov-h1 {
+        text-shadow:
+          4px 4px 0 var(--y2k-primary),
+          8px 8px 0 var(--y2k-accent);
+      }
+      .lov-deck .lov-cover-bg {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%; object-fit: cover;
+        opacity: 0.22;
+        filter: hue-rotate(220deg) saturate(1.4) contrast(1.1);
+        image-rendering: pixelated;
+        z-index: 0;
+      }
+      .lov-deck .lov-cover-veil {
+        position: absolute; inset: 0;
+        background:
+          repeating-linear-gradient(0deg, rgba(196,205,254,0.05) 0 2px, transparent 2px 4px),
+          linear-gradient(180deg, transparent 40%, rgba(11,16,48,0.85) 100%);
+        z-index: 0;
+      }
+
+      /* Pixel "PRESS START" blink on cover */
+      .lov-deck .lov-cover .lov-content::after {
+        content: "▶ PRESS START";
+        font-family: "Press Start 2P", monospace;
+        font-size: clamp(10px, 0.9vw, 14px);
+        color: var(--y2k-accent-2);
+        margin-top: 32px;
+        animation: y2k-blink 1.2s steps(2) infinite;
+        text-shadow: 2px 2px 0 var(--y2k-primary);
+      }
+      @keyframes y2k-blink { 50% { opacity: 0; } }
+
+      /* ── Quote ───────────────────────────────────────────────────── */
+      .lov-deck .lov-quote {
+        font-size: clamp(28px, 3.2vw, 56px) !important;
+        line-height: 1.25 !important;
+        color: var(--y2k-primary-3) !important;
+      }
+      .lov-deck .lov-quote-mark {
+        font-family: "Press Start 2P", monospace;
+        color: var(--y2k-accent);
+        font-size: clamp(80px, 10vw, 160px);
+        line-height: 0.8;
+        margin-bottom: -10px;
+        text-shadow: 4px 4px 0 var(--y2k-primary);
+      }
+      .lov-deck .lov-cite {
+        margin-top: 24px;
+        font-size: clamp(14px, 1.1vw, 18px) !important;
+        color: var(--y2k-primary-2) !important;
+      }
+
+      /* ── Stats / big-number ──────────────────────────────────────── */
+      .lov-deck .lov-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: clamp(16px, 1.5vw, 28px);
+        margin-top: 40px;
+      }
+      .lov-deck .lov-stat { text-align: center; }
+      .lov-deck .lov-stat-value {
+        font-size: clamp(40px, 5vw, 72px) !important;
+        color: var(--y2k-accent-2) !important;
+        display: block;
+        line-height: 1;
+        text-shadow:
+          3px 3px 0 var(--y2k-primary),
+          6px 6px 0 var(--y2k-accent);
+      }
+      .lov-deck .lov-stat-label {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 12px !important;
+        margin-top: 16px;
+        color: var(--y2k-primary-2) !important;
+        font-family: "Press Start 2P", monospace !important;
+      }
+      .lov-deck .lov-bignum-value {
+        font-size: clamp(96px, 14vw, 240px) !important;
+        line-height: 0.9;
+        color: var(--y2k-accent-2) !important;
+        text-shadow:
+          6px 6px 0 var(--y2k-primary),
+          12px 12px 0 var(--y2k-accent);
+      }
+
+      /* ── Bullets — pixel hearts ──────────────────────────────────── */
+      .lov-deck .lov-bullets {
+        list-style: none; padding: 0; margin: 32px 0;
+        display: flex; flex-direction: column; gap: 18px;
+      }
+      .lov-deck .lov-bullets li {
+        position: relative;
+        padding-left: 56px;
+        font-size: clamp(16px, 1.4vw, 22px) !important;
+        line-height: 1.5;
+        color: var(--y2k-ink) !important;
+      }
+      .lov-deck .lov-bullets li::before {
+        content: "♥";
+        position: absolute;
+        left: 0; top: 0;
+        width: 32px; height: 32px;
+        display: flex; align-items: center; justify-content: center;
+        background: var(--y2k-primary);
+        color: var(--y2k-accent);
+        border: 3px solid var(--y2k-primary-3);
+        font-size: 18px;
+        box-shadow: 3px 3px 0 var(--y2k-accent);
+      }
+      .lov-deck .lov-bullets li:nth-child(2n)::before { background: var(--y2k-accent); color: var(--y2k-accent-2); box-shadow: 3px 3px 0 var(--y2k-primary); }
+      .lov-deck .lov-bullets li:nth-child(3n)::before { background: var(--y2k-accent-3); color: var(--y2k-bg); box-shadow: 3px 3px 0 var(--y2k-primary); }
+
+      /* ── Two-column / split layouts ──────────────────────────────── */
+      .lov-deck .lov-twocol {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(24px, 3vw, 56px);
+        align-items: center;
+        margin-top: 32px;
+      }
+      .lov-deck .lov-twocol .lov-media { aspect-ratio: 4/3; }
+
+      /* ── Three-column / pillars ──────────────────────────────────── */
+      .lov-deck .lov-three {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: clamp(20px, 2vw, 36px);
+        margin-top: 40px;
+      }
+      .lov-deck .lov-three > * { display: flex; flex-direction: column; gap: 16px; }
+      .lov-deck .lov-three h3 {
+        font-family: "Press Start 2P", monospace !important;
+        font-size: clamp(14px, 1.4vw, 22px) !important;
+        color: var(--y2k-accent-2) !important;
+        margin: 0;
+        line-height: 1.4 !important;
+      }
+
+      /* ── Image-full / magazine-cover ─────────────────────────────── */
+      .lov-deck .lov-section[data-layout="image-full"],
+      .lov-deck .lov-section[data-layout="magazine-cover"],
+      .lov-deck .lov-section[data-layout="diagonal-split"] {
+        padding: 0;
+      }
+      .lov-deck .lov-section[data-layout="image-full"] .lov-cover-bg,
+      .lov-deck .lov-section[data-layout="magazine-cover"] .lov-cover-bg {
+        opacity: 0.55;
+      }
+
+      /* ── Process / timeline ──────────────────────────────────────── */
+      .lov-deck .lov-process-grid,
+      .lov-deck .lov-timeline {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: clamp(20px, 2vw, 32px);
+        margin-top: 40px;
+      }
+      .lov-deck .lov-process-step .lov-step-num,
+      .lov-deck .lov-timeline-item .lov-step-num {
+        font-family: "Press Start 2P", monospace !important;
+        font-size: clamp(32px, 4vw, 56px) !important;
+        color: var(--y2k-accent-2) !important;
+        line-height: 1;
+        text-shadow: 3px 3px 0 var(--y2k-primary);
+      }
+
+      /* ── Gallery / image grids ───────────────────────────────────── */
+      .lov-deck .lov-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: clamp(16px, 1.5vw, 28px);
+        margin-top: 32px;
+      }
+      .lov-deck .lov-gallery-item {
+        padding: 0 !important;
+        aspect-ratio: 1;
+        overflow: hidden;
+      }
+      .lov-deck .lov-gallery-item img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+
+      /* ── Comparison / before-after / vs-split ────────────────────── */
+      .lov-deck .lov-comparison {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 32px;
+        align-items: stretch;
+        margin-top: 40px;
+      }
+      .lov-deck .lov-comparison-vs {
+        display: flex; align-items: center; justify-content: center;
+        font-family: "Press Start 2P", monospace;
+        font-size: clamp(28px, 3.5vw, 56px);
+        color: var(--y2k-accent);
+        text-shadow: 3px 3px 0 var(--y2k-primary);
+      }
+
+      /* ── Callout / manifesto / pull-quote ────────────────────────── */
+      .lov-deck .lov-callout {
+        max-width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+        padding: clamp(40px, 5vw, 80px) !important;
+      }
+
+      /* ── Section dividers (big numbered openers like "01") ──────── */
+      .lov-deck .lov-section[data-layout="section-divider"] .lov-h2,
+      .lov-deck .lov-section[data-layout*="divider"] .lov-kicker {
+        font-family: "Press Start 2P", monospace !important;
+        font-size: clamp(80px, 12vw, 200px) !important;
+        line-height: 1 !important;
+        color: var(--y2k-accent-2) !important;
+        letter-spacing: 0.02em;
+        text-shadow:
+          5px 5px 0 var(--y2k-primary),
+          10px 10px 0 var(--y2k-accent);
+      }
+
+      /* ── Footer index pill "01 / 18" ─────────────────────────────── */
+      .lov-deck .lov-index {
+        position: absolute;
+        bottom: 24px; right: 32px;
+        background: var(--y2k-primary) !important;
+        color: var(--y2k-primary-3) !important;
+        padding: 8px 16px;
+        border: 3px solid var(--y2k-primary-3);
+        border-radius: 0;
+        font-size: 10px !important;
+        letter-spacing: 0.15em;
+        z-index: 3;
+        box-shadow: 3px 3px 0 var(--y2k-accent);
+      }
+
+      /* ── Variant overrides (8 surface styles from renderer) ──────── */
+      .lov-deck .lov-v-paper { background: var(--y2k-bg-2) !important; }
+      .lov-deck .lov-v-filled { background: var(--y2k-primary) !important; color: var(--y2k-primary-3) !important; }
+      .lov-deck .lov-v-filled .lov-h1, .lov-deck .lov-v-filled .lov-h2 { color: var(--y2k-accent-2) !important; }
+      .lov-deck .lov-v-outline { background: transparent !important; }
+      .lov-deck .lov-v-mono { filter: hue-rotate(0deg) saturate(0.4); }
+      .lov-deck .lov-v-gradient {
+        background: linear-gradient(135deg, var(--y2k-primary) 0%, var(--y2k-accent) 100%) !important;
+      }
+
+      /* ── Accent decorations (5 styles from renderer) ─────────────── */
+      .lov-deck .lov-a-top::after {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 10px;
+        background: repeating-linear-gradient(90deg,
+          var(--y2k-accent) 0 20px,
+          var(--y2k-accent-2) 20px 40px,
+          var(--y2k-accent-3) 40px 60px,
+          var(--y2k-primary-3) 60px 80px);
+        z-index: 2;
+      }
+      .lov-deck .lov-a-left::after {
+        content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 10px;
+        background: repeating-linear-gradient(0deg,
+          var(--y2k-accent) 0 20px,
+          var(--y2k-accent-2) 20px 40px,
+          var(--y2k-accent-3) 40px 60px,
+          var(--y2k-primary-3) 60px 80px);
+        z-index: 2;
+      }
+      .lov-deck .lov-a-corner::after {
+        content: ""; position: absolute; top: 0; right: 0;
+        width: 60px; height: 60px;
+        background:
+          linear-gradient(135deg, transparent 50%, var(--y2k-accent) 50%);
+        z-index: 2;
+      }
+      .lov-deck .lov-a-underline .lov-h1::after,
+      .lov-deck .lov-a-underline .lov-h2::after {
+        content: ""; display: block;
+        width: 160px; height: 8px; margin-top: 20px;
+        background: repeating-linear-gradient(90deg,
+          var(--y2k-accent) 0 8px,
+          transparent 8px 16px);
+      }
+      .lov-deck .lov-a-side-bar { padding-left: 60px !important; border-left: 12px solid var(--y2k-accent) !important; }
+    </style>
+  </head>
+  <body>
+    <!--
+      The renderer (SlidesHtmlDeckCard) wipes this body and injects
+      AI-generated <section class="lov-section"> markup inside <main class="lov-deck">.
+      The CSS above is what makes the slides feel "Retro Y2K Pixel".
+    -->
+    <main class="lov-deck">
+      <section class="lov-section lov-cover">
+        <div class="lov-content lov-content-center">
+          <div class="lov-kicker">▶ Y2K GAME CONSOLE</div>
+          <h1 class="lov-h1">PRESS START!</h1>
+          <p class="lov-subtitle">Retro pixel-art deck inspired by 8-bit consoles and Y2K UI.</p>
+        </div>
+        <div class="lov-index">01 / 18</div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -51,6 +51,14 @@ export const MEGSY_DECK_TEMPLATES: SlidesTemplate[] = [
     category: "premium",
     htmlSlug: "megsy-illustrated-deck",
   },
+  {
+    id: "premium-retro-y2k-pixel",
+    name: "Retro Y2K Pixel",
+    description: "Y2K game console, pixel art + Press Start 2P, neon blue",
+    colors: ["#0b1030", "#5067DC"],
+    category: "premium",
+    htmlSlug: "retro-y2k-pixel-deck",
+  },
 ];
 
 export const SLIDES_TEMPLATES: SlidesTemplate[] = [
