@@ -2,8 +2,9 @@
 // "premium" = internal HTML landing-page templates we ship from /public/templates/{slug}/index.html.
 //   Renderer fetches the template HTML, strips nav/header/footer/CTAs, enlarges typography,
 //   and injects AI-generated content (titles, paragraphs, images).
+// "standard" = external API templates (docs-design-studio.lovable.app) — opened in an iframe.
 
-export type SlidesCategory = "premium";
+export type SlidesCategory = "premium" | "standard";
 
 export interface SlidesTemplate {
   id: string;
@@ -14,9 +15,11 @@ export interface SlidesTemplate {
   category: SlidesCategory;
   /** For premium: directory under /public/templates/ that contains index.html (+ optional scene.js). */
   htmlSlug?: string;
+  /** For standard: external builder URL. */
+  externalUrl?: string;
 }
 
-/** ─── Premium: internal HTML landing-page templates ─────────────────────── */
+/** ─── Premium: 10 internal HTML landing-page templates ─────────────────── */
 export const PREMIUM_HTML_TEMPLATES: SlidesTemplate[] = [
   { id: "premium-vanta-atelier",   name: "Vanta Atelier",     description: "Editorial dark luxury, gold serif",   colors: ["#0a0a0a", "#c9a84c"], category: "premium", htmlSlug: "remix-vanta-digital-atelier" },
   { id: "premium-verdana-3d",      name: "Verdana 3D",        description: "Botanical dark, lime three.js",       colors: ["#0a0e08", "#a8d63b"], category: "premium", htmlSlug: "remix-3d-website-the-digital-o" },
@@ -38,50 +41,29 @@ export const PREMIUM_HTML_TEMPLATES: SlidesTemplate[] = [
   { id: "premium-ai-video-gen",    name: "AI Video Studio",    description: "AI generator, neon gradient hero",     colors: ["#0a0a1a", "#ec4899"], category: "premium", htmlSlug: "remix-ai-video-generator-websi" },
   { id: "premium-silent-wealth",   name: "Silent Wealth",      description: "Quiet luxury, paper + ink serif",      colors: ["#f5f3ee", "#0d0d0d"], category: "premium", htmlSlug: "remix-silent-wealth" },
   { id: "premium-aiventraq",       name: "Aiventraq Automation",description: "AI automation, dark + emerald glow",  colors: ["#06070d", "#10b981"], category: "premium", htmlSlug: "remix-aiventraq-ai-automation" },
-  { id: "premium-3d-car-scroll",    name: "3D Car Scroll",      description: "Cinematic automotive scroll, chrome black", colors: ["#050505", "#d9d9d9"], category: "premium", htmlSlug: "remix-3d-car-scroll-website" },
-  { id: "premium-3d-portfolio-builder", name: "3D Portfolio Builder", description: "Immersive portfolio builder, neon depth", colors: ["#080816", "#60a5fa"], category: "premium", htmlSlug: "remix-3d-portfolio-website-bui" },
-  { id: "premium-vinyl-camera",     name: "Vinyl Camera",       description: "Analog vinyl mood, camera-ref motion", colors: ["#111111", "#f59e0b"], category: "premium", htmlSlug: "remix-3d-vinyl-with-camera-ref" },
-  { id: "premium-ai-builder",       name: "AI Website Builder",  description: "Unlimited AI builder SaaS hero", colors: ["#0a0a1a", "#38bdf8"], category: "premium", htmlSlug: "remix-ai-website-builder-unlim" },
-  { id: "premium-graphic-designer", name: "Graphic Designer",    description: "Animated creative portfolio, bold color", colors: ["#111827", "#fb7185"], category: "premium", htmlSlug: "remix-animated-graphic-designer" },
-  { id: "premium-water-circle",     name: "Water Circle",       description: "3D water circle, liquid blue motion", colors: ["#06213a", "#67e8f9"], category: "premium", htmlSlug: "remix-circle-of-water-3d-websi" },
-  { id: "premium-comic-hero",       name: "Comic Hero",         description: "Comic-inspired cinematic web poster", colors: ["#0b1020", "#ef4444"], category: "premium", htmlSlug: "remix-cool-spiderman-website" },
-  { id: "premium-flavora",          name: "Flavora Meal",       description: "Interactive food landing, fresh and warm", colors: ["#18230f", "#f97316"], category: "premium", htmlSlug: "remix-flavora-interactive-meal" },
-  { id: "premium-game-launch",      name: "Game Launch",        description: "High-energy gaming page, neon action", colors: ["#09090b", "#a855f7"], category: "premium", htmlSlug: "remix-game-landing-page-design" },
-  { id: "premium-digital-marketplace", name: "Digital Marketplace", description: "Interactive 3D marketplace, cyber commerce", colors: ["#050816", "#22d3ee"], category: "premium", htmlSlug: "remix-interactive-3d-digital-m" },
-  { id: "premium-helmet-showcase",  name: "Helmet Showcase",    description: "Interactive 3D product helmet showcase", colors: ["#0f172a", "#facc15"], category: "premium", htmlSlug: "remix-interactive-3d-helmet-sh" },
-  { id: "premium-portfolio-3d",     name: "Portfolio 3D",       description: "Interactive 3D personal portfolio", colors: ["#020617", "#2dd4bf"], category: "premium", htmlSlug: "remix-interactive-3d-portfolio" },
-  { id: "premium-logic-cube",       name: "Logic Cube",         description: "Floating cube, abstract tech geometry", colors: ["#0b0b12", "#f8fafc"], category: "premium", htmlSlug: "remix-logic-cube-floating" },
-  { id: "premium-modern-ai-visible", name: "Modern AI Visible", description: "Modern AI brand, clean luminous sections", colors: ["#f8fafc", "#2563eb"], category: "premium", htmlSlug: "remix-modern-ai-visible-websit" },
-  { id: "premium-neon-portfolio",   name: "Neon Portfolio",     description: "Neon UI designer portfolio, dark glow", colors: ["#050505", "#39ff14"], category: "premium", htmlSlug: "remix-neon-portfolio-for-ui-de" },
-  { id: "premium-noodles",          name: "Noodles Splash",     description: "Playful noodles splash page, vivid food", colors: ["#fef3c7", "#ef4444"], category: "premium", htmlSlug: "remix-noodles-splash-page" },
-  { id: "premium-buoy-data",        name: "Ocean Buoy Data",    description: "Real-time ocean buoy dashboard aesthetic", colors: ["#0c2340", "#5cbdb9"], category: "premium", htmlSlug: "remix-real-time-ocean-buoy-dat" },
-  { id: "premium-abstract-vector",  name: "Abstract Vector",    description: "Abstract vector neon design system", colors: ["#0b1020", "#e879f9"], category: "premium", htmlSlug: "remix-remix-abstract-vector-ne" },
-  { id: "premium-science-lab",      name: "Science Lab",        description: "Interactive science lab, bright discovery", colors: ["#061626", "#84cc16"], category: "premium", htmlSlug: "remix-science-lab-website-with" },
-  { id: "premium-velammal",         name: "Velammal",           description: "Institutional editorial engineering site", colors: ["#0f1b3d", "#e8edf3"], category: "premium", htmlSlug: "remix-velammal-engineering-col" },
-  { id: "premium-veloured",         name: "Veloured",           description: "Premium modern minimal landing page", colors: ["#f5f3ee", "#111111"], category: "premium", htmlSlug: "remix-veloured-modern-landing-" },
-  { id: "premium-voxel",            name: "Voxel Website",      description: "Voxel-inspired playful 3D website", colors: ["#101828", "#f97316"], category: "premium", htmlSlug: "remix-voxel-website" },
-  { id: "premium-vary-noodles",     name: "Noodles Variant",    description: "Alternate playful noodles splash layout", colors: ["#fff7ed", "#fb923c"], category: "premium", htmlSlug: "vary-noodles-splash-page" },
 ];
 
-/** Megsy Deck — flagship template that mirrors the megsy.ai landing page
- *  (pitch-black bg, electric purple primary, Space Grotesk display). */
-export const MEGSY_DECK_TEMPLATES: SlidesTemplate[] = [
-  {
-    id: "premium-megsy-landing",
-    name: "Megsy",
-    description: "Pitch black + electric purple, Space Grotesk — landing-page look",
-    colors: ["#000000", "#8b5cf6"],
-    category: "premium",
-    htmlSlug: "megsy-landing-deck",
-  },
+/** ─── Standard: external docs-design-studio templates ─────────────────── */
+const STANDARD_BASE = "https://docs-design-studio.lovable.app/create/slides";
+export const STANDARD_TEMPLATES: SlidesTemplate[] = [
+  { id: "standard-pitch",        name: "Pitch Deck",      description: "Startup pitch in 8-12 slides",      colors: ["#0f1b3d", "#3b6fa0"], category: "standard", externalUrl: `${STANDARD_BASE}?template=pitch` },
+  { id: "standard-corporate",    name: "Corporate",       description: "Quarterly business review",         colors: ["#1e3a5f", "#e8edf3"], category: "standard", externalUrl: `${STANDARD_BASE}?template=corporate` },
+  { id: "standard-education",    name: "Education",       description: "Lesson / workshop slides",          colors: ["#064e3b", "#c9a84c"], category: "standard", externalUrl: `${STANDARD_BASE}?template=education` },
+  { id: "standard-creative",     name: "Creative",        description: "Bold magazine-style",               colors: ["#dc2626", "#fafaf7"], category: "standard", externalUrl: `${STANDARD_BASE}?template=creative` },
+  { id: "standard-minimal",      name: "Minimal",         description: "Black & white, ultra clean",        colors: ["#000000", "#ffffff"], category: "standard", externalUrl: `${STANDARD_BASE}?template=minimal` },
+  { id: "standard-megsy",        name: "Megsy Style",     description: "Signature dark + gradient",         colors: ["#08070d", "#ec4899"], category: "standard", externalUrl: `${STANDARD_BASE}?template=megsy` },
+  { id: "standard-axiom",        name: "Axiom Network",   description: "White + violet/blue + Syne",        colors: ["#ffffff", "#6366f1"], category: "standard", externalUrl: `${STANDARD_BASE}?template=axiom-network` },
+  { id: "standard-aethon",       name: "Aethon",          description: "Warm sand minimal + terracotta",    colors: ["#f5f0e8", "#c4654a"], category: "standard", externalUrl: `${STANDARD_BASE}?template=aethon-helmet` },
+  { id: "standard-solar",        name: "Solar Explorer",  description: "Cosmic dark, planetary palette",    colors: ["#06070d", "#fb923c"], category: "standard", externalUrl: `${STANDARD_BASE}?template=solar-explorer` },
+  { id: "standard-turbo-930",    name: "Turbo 930",       description: "Auto-magazine, dark + gold stroke", colors: ["#0a0a0a", "#fbbf24"], category: "standard", externalUrl: `${STANDARD_BASE}?template=turbo-930` },
 ];
 
 export const SLIDES_TEMPLATES: SlidesTemplate[] = [
-  ...MEGSY_DECK_TEMPLATES,
   ...PREMIUM_HTML_TEMPLATES,
+  ...STANDARD_TEMPLATES,
 ];
 
-export const DEFAULT_SLIDES_TEMPLATE = "premium-megsy-landing";
+export const DEFAULT_SLIDES_TEMPLATE = "premium-vanta-atelier";
 
 export function findSlidesTemplate(id?: string | null): SlidesTemplate {
   return SLIDES_TEMPLATES.find((t) => t.id === id) || PREMIUM_HTML_TEMPLATES[0];

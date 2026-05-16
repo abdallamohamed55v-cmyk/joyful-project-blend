@@ -39,17 +39,8 @@ const SlidesTemplateSheet = ({ open, selectedId, onSelect, onClose }: Props) => 
                       className="relative w-full aspect-[16/9]"
                       style={{ background: `linear-gradient(135deg, ${t.colors[0]} 0%, ${t.colors[1]} 100%)` }}
                     >
-                      {t.htmlSlug && (
-                        <img
-                          src={`/templates/${t.htmlSlug}/preview.png`}
-                          alt=""
-                          loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover object-top"
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                        />
-                      )}
                       <div className="absolute inset-x-0 bottom-0 p-2.5 text-[10px] font-black uppercase tracking-[0.22em] text-white drop-shadow"
-                           style={{ background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.6))" }}>
+                           style={{ background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.5))" }}>
                         {t.name}
                       </div>
                       {active && (

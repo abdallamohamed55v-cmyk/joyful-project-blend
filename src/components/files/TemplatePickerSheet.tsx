@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Check } from "lucide-react";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
-export type PickerCategory = "premium";
+export type PickerCategory = "premium" | "standard";
 
 export interface PickerTemplate {
   id: string;
@@ -50,7 +50,7 @@ const TemplatePickerSheet = ({
 
   const visible = useMemo(() => {
     if (!showCategoryTabs) return templates;
-    const filtered = templates.filter((t) => (t.category || "premium") === tab);
+    const filtered = templates.filter((t) => (t.category || "standard") === tab);
     return filtered.length ? filtered : templates;
   }, [templates, tab, showCategoryTabs]);
 
@@ -101,6 +101,16 @@ const TemplatePickerSheet = ({
                 >
                   Premium
                 </button>
+                <button
+                  onClick={() => setTab("standard")}
+                  className={`flex-1 h-10 rounded-xl text-xs font-semibold transition ${
+                    tab === "standard"
+                      ? "bg-foreground text-background shadow"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Standard
+                </button>
               </div>
             )}
           </header>
@@ -117,13 +127,13 @@ const TemplatePickerSheet = ({
                       active ? "border-primary ring-2 ring-primary/30" : "border-border/50 hover:border-foreground/30"
                     }`}
                   >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden flex items-center justify-center" style={fallbackStyle(t)}>
+                    <div className="relative w-full aspect-[4/3] overflow-hidden" style={fallbackStyle(t)}>
                       {t.preview ? (
                         <img
                           src={t.preview}
                           alt=""
                           loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover object-top"
+                          className="absolute inset-0 w-full h-full object-cover"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                         />
                       ) : null}
@@ -131,12 +141,6 @@ const TemplatePickerSheet = ({
                         <span className="absolute top-2 right-2 h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg">
                           <Check className="h-3.5 w-3.5" />
                         </span>
-                      )}
-                    </div>
-                    <div className="px-2.5 py-2 bg-card">
-                      <p className="text-[12px] font-semibold text-foreground truncate leading-tight">{t.name}</p>
-                      {t.description && (
-                        <p className="text-[10px] text-muted-foreground truncate mt-0.5">{t.description}</p>
                       )}
                     </div>
                   </button>

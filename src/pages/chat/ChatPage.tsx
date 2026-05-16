@@ -37,7 +37,7 @@ import { ChatFollowups } from "@/components/chat/ChatFollowups";
 // Heavy / conditionally-rendered — lazy load to shrink initial chat bundle
 const SlidesDeckCard = lazy(() => import("@/components/chat/SlidesDeckCard"));
 const SlidesHtmlDeckCard = lazy(() => import("@/components/chat/SlidesHtmlDeckCard"));
-
+const StandardSlidesCard = lazy(() => import("@/components/chat/StandardSlidesCard"));
 const InChatTimerCard = lazy(() => import("@/components/learn/InChatTimerCard"));
 
 const ConnectorsDialog = lazy(() => import("@/components/integrations/ConnectorsDialog"));
@@ -76,6 +76,7 @@ interface Message {
   senderAvatar?: string | null;
   mode?: "normal" | "learning" | "shopping" | "deep-research" | "slides";
   slidesDeck?: SlideDeck;
+  standardSlides?: { title: string; templateName: string; url: string; colors: [string, string] };
   slidesPendingTopic?: string;
   docsArtifact?: { title: string; templateLabel: string; templateId?: string; format: string; downloadUrl?: string; mime?: string };
 }
@@ -511,10 +512,11 @@ const ChatPage = () => {
           user_id: m.user_id,
           senderName: m.user_id ? senderMap[m.user_id]?.name : null,
           senderAvatar: m.user_id ? senderMap[m.user_id]?.avatar : null,
-          mode: meta.kind === "slidesDeck" || meta.kind === "slidesPending" || (conv as any)?.mode === "slides"
+          mode: meta.kind === "slidesDeck" || meta.kind === "standardSlides" || meta.kind === "slidesPending" || (conv as any)?.mode === "slides"
             ? "slides"
             : (role === "assistant" && (conv as any)?.mode === "research" ? "deep-research" : undefined),
           slidesDeck: meta.slidesDeck || undefined,
+          standardSlides: meta.standardSlides || undefined,
           slidesPendingTopic: meta.kind === "slidesPending" ? meta.topic : undefined,
           docsArtifact: meta.docsArtifact || undefined,
         };
@@ -663,7 +665,9 @@ const ChatPage = () => {
         }
       });
 
-      // All slide templates go through the streaming pipeline and return real generated slides.
+      // All slide templates (premium + standard) go through the streaming pipeline.
+      // Standard templates are mapped to a premium HTML shell server-side so the
+      // user always gets real generated slides — never just an iframe to an external site.
       const tplPicked = findSlidesTemplate(slidesTemplate);
 
       // Premium slides quota: 3 free per day, then 1 credit each
@@ -2839,6 +2843,18 @@ Ask me anything to get started!`;
                         </Suspense>
                       </div>
                     )}
+                    {msg.role === "assistant" && msg.standardSlides && (
+                      <div className="px-3 md:px-12">
+                        <Suspense fallback={null}>
+                          <StandardSlidesCard
+                            title={msg.standardSlides.title}
+                            templateName={msg.standardSlides.templateName}
+                            url={msg.standardSlides.url}
+                            colors={msg.standardSlides.colors}
+                          />
+                        </Suspense>
+                      </div>
+                    )}
                     {msg.role === "assistant" && msg.docsArtifact && (
                       <div className="px-3 md:px-12">
                         <Suspense fallback={null}>
@@ -2852,7 +2868,7 @@ Ask me anything to get started!`;
                         </Suspense>
                       </div>
                     )}
-                    {msg.role === "assistant" && msg.mode === "slides" && !msg.slidesDeck && !isLoading && (
+                    {msg.role === "assistant" && msg.mode === "slides" && !msg.slidesDeck && !msg.standardSlides && !isLoading && (
                       <div className="px-3 md:px-12 mt-3">
                         <div className="rounded-2xl border border-border/50 bg-card/60 backdrop-blur-xl p-4 max-w-xl">
                           <div className="text-[13px] font-medium text-foreground mb-1">عرض الشرائح غير متاح</div>
@@ -3337,11 +3353,11 @@ Ask me anything to get started!`;
           {slidesPickerOpen && (
             <TemplatePickerSheet
               open={slidesPickerOpen}
+              showCategoryTabs
               templates={SLIDES_TEMPLATES.map((t) => ({
                 id: t.id,
                 name: t.name,
                 description: t.description,
-                preview: t.htmlSlug ? `/templates/${t.htmlSlug}/preview.png` : undefined,
                 fallbackLabel: t.name,
                 category: t.category,
                 colors: t.colors,
