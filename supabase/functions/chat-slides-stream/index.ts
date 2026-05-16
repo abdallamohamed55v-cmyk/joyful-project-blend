@@ -568,7 +568,7 @@ serve(async (req) => {
   }
   // Resolve template: Standard templates were removed, so only shipped premium templates are accepted.
   const rawId = typeof templateId === "string" ? templateId : "";
-  const tplId = REACT_TEMPLATES.has(rawId) ? rawId : "premium-megsy-illustrated";
+  const tplId = REACT_TEMPLATES.has(rawId) ? rawId : "premium-megsy-landing";
   const palette = PALETTES[tplId];
 
   // Decide if user pasted a long report (>=400 chars) → treat as material to expand from.
