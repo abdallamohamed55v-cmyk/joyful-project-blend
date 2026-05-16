@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Odyssey Classical Deck</title>
+
+    <!-- Cormorant Garamond for classical serif titles, Inter for body, Cinzel for kickers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <style id="odyssey-base">
+      /* =================================================================
+         ODYSSEY CLASSICAL — warm parchment + deep teal + terracotta.
+         Inspired by SlidesCarnival "The Odyssey" template.
+         Cinzel kickers, Cormorant serif headlines, Inter body.
+         Greek-key ornaments, columnar layouts, wax-seal accents.
+         Scoped under .lov-deck.
+         ================================================================= */
+
+      :root {
+        --od-parchment:  #f0e6d2;
+        --od-parchment-2:#e8dcc4;
+        --od-paper:      #faf4e6;
+        --od-card:       #f6ecd5;
+        --od-ink:        #1f2a2e;
+        --od-ink-soft:   #3b4a4f;
+        --od-teal:       #1d4a52;
+        --od-teal-2:     #2c6970;
+        --od-teal-3:     #4a8a90;
+        --od-terracotta: #b8533a;
+        --od-terracotta-2:#d97757;
+        --od-gold:       #b8893a;
+        --od-gold-2:     #d4ac5a;
+        --od-muted:      #6b7a7f;
+        --od-rule:       rgba(29,74,82,0.18);
+      }
+
+      html, body { background: var(--od-parchment); margin: 0; }
+
+      .lov-deck {
+        background: var(--od-parchment) !important;
+        color: var(--od-ink) !important;
+        font-family: "Inter", "Helvetica Neue", system-ui, sans-serif !important;
+      }
+
+      .lov-deck .lov-section {
+        background:
+          radial-gradient(circle at 0% 0%, rgba(184,137,58,0.06), transparent 40%),
+          radial-gradient(circle at 100% 100%, rgba(29,74,82,0.05), transparent 40%),
+          linear-gradient(180deg, var(--od-paper) 0%, var(--od-parchment) 100%) !important;
+        color: var(--od-ink) !important;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Subtle paper grain + soft vignette */
+      .lov-deck .lov-section::before {
+        content: "";
+        position: absolute; inset: 0;
+        background-image:
+          radial-gradient(rgba(120,90,40,0.05) 1px, transparent 1px),
+          radial-gradient(rgba(29,74,82,0.04) 1px, transparent 1px);
+        background-size: 4px 4px, 7px 7px;
+        background-position: 0 0, 2px 3px;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.7;
+      }
+      .lov-deck .lov-section::after {
+        content: "";
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(60,40,15,0.12) 100%);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .lov-deck .lov-section > * { position: relative; z-index: 1; }
+
+      /* ── Typography ──────────────────────────────────────────────── */
+      .lov-deck .lov-h1,
+      .lov-deck .lov-h2,
+      .lov-deck .lov-h3,
+      .lov-deck .lov-bignum-value,
+      .lov-deck .lov-stat-value,
+      .lov-deck .lov-quote {
+        font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif !important;
+        color: var(--od-teal) !important;
+        font-weight: 600 !important;
+        letter-spacing: -0.005em;
+      }
+      .lov-deck .lov-h1 { font-size: clamp(44px, 6.5vw, 110px) !important; line-height: 1.05 !important; font-weight: 500 !important; }
+      .lov-deck .lov-h2 { font-size: clamp(32px, 4.5vw, 72px) !important; line-height: 1.1  !important; font-weight: 500 !important; }
+      .lov-deck .lov-h3 { font-size: clamp(22px, 2.2vw, 36px) !important; line-height: 1.2 !important; }
+
+      .lov-deck .lov-subtitle,
+      .lov-deck .lov-body,
+      .lov-deck .lov-bullets li,
+      .lov-deck .lov-stat-label,
+      .lov-deck .lov-cite {
+        font-family: "Inter", system-ui, sans-serif !important;
+        color: var(--od-ink-soft) !important;
+        font-weight: 400 !important;
+      }
+      .lov-deck .lov-subtitle {
+        font-size: clamp(18px, 1.7vw, 26px) !important;
+        line-height: 1.5 !important;
+        color: var(--od-ink-soft) !important;
+        font-style: italic;
+        font-family: "Cormorant Garamond", serif !important;
+        font-weight: 400 !important;
+      }
+      .lov-deck .lov-body { font-size: clamp(15px, 1.3vw, 20px) !important; line-height: 1.7 !important; }
+
+      .lov-deck .lov-kicker,
+      .lov-deck .lov-index {
+        font-family: "Cinzel", "Trajan Pro", serif !important;
+        color: var(--od-terracotta) !important;
+        text-transform: uppercase;
+        letter-spacing: 0.28em;
+        font-weight: 500 !important;
+      }
+      .lov-deck .lov-kicker {
+        font-size: clamp(11px, 0.95vw, 15px) !important;
+        margin-bottom: 28px;
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .lov-deck .lov-kicker::before,
+      .lov-deck .lov-kicker::after {
+        content: "";
+        width: 28px;
+        height: 1px;
+        background: var(--od-terracotta);
+        opacity: 0.6;
+      }
+
+      /* ── Content layout primitives ───────────────────────────────── */
+      .lov-deck .lov-content {
+        padding: clamp(48px, 6vw, 110px);
+        max-width: 1600px;
+        margin: 0 auto;
+        height: 100%;
+        display: flex; flex-direction: column;
+        justify-content: center;
+      }
+      .lov-deck .lov-content-center { text-align: center; align-items: center; }
+
+      /* ── Cards / callouts — parchment cards with thin gold rule ── */
+      .lov-deck .lov-callout,
+      .lov-deck .lov-three > *,
+      .lov-deck .lov-twocol > *,
+      .lov-deck .lov-stats-section .lov-stat,
+      .lov-deck .lov-process-step,
+      .lov-deck .lov-timeline-item,
+      .lov-deck .lov-comparison-side {
+        background: var(--od-card) !important;
+        border: 1px solid var(--od-rule) !important;
+        border-top: 3px solid var(--od-terracotta) !important;
+        border-radius: 2px !important;
+        box-shadow:
+          0 1px 0 rgba(255,255,255,0.6) inset,
+          0 12px 30px -18px rgba(60,40,15,0.35) !important;
+        color: var(--od-ink) !important;
+        padding: clamp(24px, 2.4vw, 40px) !important;
+        position: relative;
+      }
+      /* Greek-key corner motif on cards */
+      .lov-deck .lov-callout::before,
+      .lov-deck .lov-three > *::before,
+      .lov-deck .lov-twocol > *::before {
+        content: "";
+        position: absolute;
+        top: 10px; right: 10px;
+        width: 18px; height: 18px;
+        background-image:
+          linear-gradient(var(--od-terracotta), var(--od-terracotta)),
+          linear-gradient(var(--od-terracotta), var(--od-terracotta));
+        background-size: 18px 2px, 2px 18px;
+        background-position: 0 0, 0 0;
+        background-repeat: no-repeat;
+        opacity: 0.7;
+      }
+
+      /* ── Images: parchment-framed with sepia warmth ──────────────── */
+      .lov-deck .lov-media,
+      .lov-deck img:not(.lov-cover-bg):not(.lov-deco) {
+        border-radius: 2px;
+      }
+      .lov-deck .lov-media {
+        border: 1px solid var(--od-rule);
+        box-shadow:
+          0 0 0 8px var(--od-paper),
+          0 0 0 9px var(--od-rule),
+          0 20px 40px -20px rgba(60,40,15,0.4);
+        background: var(--od-card);
+        overflow: hidden;
+        position: relative;
+      }
+      .lov-deck .lov-media::after {
+        content: "";
+        position: absolute; inset: 0;
+        background: linear-gradient(180deg, rgba(184,137,58,0.06), rgba(29,74,82,0.10));
+        pointer-events: none;
+      }
+      .lov-deck .lov-media img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        filter: sepia(0.18) saturate(0.92) contrast(1.02);
+      }
+      .lov-deck .lov-media-empty {
+        display: flex; align-items: center; justify-content: center;
+        color: var(--od-gold);
+      }
+      .lov-deck .lov-media-empty .lov-star-svg { width: 40%; height: 40%; }
+
+      /* ── Cover ───────────────────────────────────────────────────── */
+      .lov-deck .lov-cover {
+        background:
+          radial-gradient(ellipse at 50% 30%, rgba(212,172,90,0.18), transparent 55%),
+          radial-gradient(ellipse at 50% 110%, rgba(29,74,82,0.25), transparent 60%),
+          linear-gradient(180deg, #f4ead2 0%, #e6d6b3 100%) !important;
+      }
+      .lov-deck .lov-cover .lov-h1 {
+        font-style: italic;
+        font-weight: 500 !important;
+        color: var(--od-teal) !important;
+      }
+      .lov-deck .lov-cover .lov-content::before {
+        content: "❖";
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(32px, 3vw, 48px);
+        color: var(--od-terracotta);
+        margin-bottom: 24px;
+        opacity: 0.8;
+      }
+      .lov-deck .lov-cover-bg {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%; object-fit: cover;
+        opacity: 0.28;
+        filter: sepia(0.4) saturate(0.85) contrast(1.05) hue-rotate(-10deg);
+        z-index: 0;
+      }
+      .lov-deck .lov-cover-veil {
+        position: absolute; inset: 0;
+        background:
+          linear-gradient(180deg, rgba(240,230,210,0.4) 0%, rgba(29,74,82,0.55) 100%);
+        z-index: 0;
+      }
+
+      /* ── Quote ───────────────────────────────────────────────────── */
+      .lov-deck .lov-quote {
+        font-style: italic;
+        font-size: clamp(28px, 3.4vw, 60px) !important;
+        line-height: 1.3 !important;
+        color: var(--od-teal) !important;
+        font-weight: 500 !important;
+      }
+      .lov-deck .lov-quote-mark {
+        font-family: "Cormorant Garamond", serif;
+        color: var(--od-terracotta);
+        font-size: clamp(100px, 12vw, 200px);
+        line-height: 0.7;
+        margin-bottom: -20px;
+        font-style: italic;
+        opacity: 0.45;
+      }
+      .lov-deck .lov-cite {
+        margin-top: 28px;
+        font-size: clamp(13px, 1vw, 17px) !important;
+        color: var(--od-terracotta) !important;
+        font-family: "Cinzel", serif !important;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      /* ── Stats / big-number ──────────────────────────────────────── */
+      .lov-deck .lov-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: clamp(20px, 2vw, 36px);
+        margin-top: 48px;
+      }
+      .lov-deck .lov-stat { text-align: center; }
+      .lov-deck .lov-stat-value {
+        font-size: clamp(48px, 6vw, 96px) !important;
+        color: var(--od-terracotta) !important;
+        display: block;
+        line-height: 1;
+        font-weight: 500 !important;
+      }
+      .lov-deck .lov-stat-label {
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 12px !important;
+        margin-top: 18px;
+        color: var(--od-muted) !important;
+        font-family: "Cinzel", serif !important;
+      }
+      .lov-deck .lov-bignum-value {
+        font-size: clamp(120px, 18vw, 320px) !important;
+        line-height: 0.9;
+        color: var(--od-terracotta) !important;
+        font-style: italic;
+        font-weight: 400 !important;
+      }
+
+      /* ── Bullets — laurel-leaf markers ───────────────────────────── */
+      .lov-deck .lov-bullets {
+        list-style: none; padding: 0; margin: 36px 0;
+        display: flex; flex-direction: column; gap: 22px;
+      }
+      .lov-deck .lov-bullets li {
+        position: relative;
+        padding-left: 48px;
+        font-size: clamp(16px, 1.4vw, 22px) !important;
+        line-height: 1.6;
+        color: var(--od-ink) !important;
+      }
+      .lov-deck .lov-bullets li::before {
+        content: "❦";
+        position: absolute;
+        left: 0; top: -2px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 28px;
+        color: var(--od-terracotta);
+        line-height: 1;
+      }
+      .lov-deck .lov-bullets li:nth-child(2n)::before { color: var(--od-teal-2); content: "❧"; }
+      .lov-deck .lov-bullets li:nth-child(3n)::before { color: var(--od-gold); content: "✦"; }
+
+      /* ── Two-column / split layouts ──────────────────────────────── */
+      .lov-deck .lov-twocol {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(28px, 3.2vw, 64px);
+        align-items: center;
+        margin-top: 36px;
+      }
+      .lov-deck .lov-twocol .lov-media { aspect-ratio: 4/5; }
+
+      /* ── Three-column / pillars ──────────────────────────────────── */
+      .lov-deck .lov-three {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: clamp(20px, 2vw, 36px);
+        margin-top: 48px;
+      }
+      .lov-deck .lov-three > * { display: flex; flex-direction: column; gap: 18px; }
+      .lov-deck .lov-three h3 {
+        font-family: "Cormorant Garamond", serif !important;
+        font-size: clamp(22px, 2vw, 32px) !important;
+        color: var(--od-teal) !important;
+        font-style: italic;
+        font-weight: 600 !important;
+        margin: 0;
+      }
+
+      /* ── Image-full / magazine-cover ─────────────────────────────── */
+      .lov-deck .lov-section[data-layout="image-full"],
+      .lov-deck .lov-section[data-layout="magazine-cover"],
+      .lov-deck .lov-section[data-layout="diagonal-split"] {
+        padding: 0;
+      }
+      .lov-deck .lov-section[data-layout="image-full"] .lov-cover-bg,
+      .lov-deck .lov-section[data-layout="magazine-cover"] .lov-cover-bg {
+        opacity: 0.6;
+      }
+
+      /* ── Process / timeline ──────────────────────────────────────── */
+      .lov-deck .lov-process-grid,
+      .lov-deck .lov-timeline {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: clamp(20px, 2vw, 32px);
+        margin-top: 48px;
+      }
+      .lov-deck .lov-process-step .lov-step-num,
+      .lov-deck .lov-timeline-item .lov-step-num {
+        font-family: "Cormorant Garamond", serif !important;
+        font-size: clamp(40px, 5vw, 72px) !important;
+        color: var(--od-terracotta) !important;
+        font-style: italic;
+        line-height: 1;
+        font-weight: 500 !important;
+      }
+
+      /* ── Gallery / image grids ───────────────────────────────────── */
+      .lov-deck .lov-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: clamp(16px, 1.5vw, 28px);
+        margin-top: 36px;
+      }
+      .lov-deck .lov-gallery-item {
+        padding: 0 !important;
+        aspect-ratio: 1;
+        overflow: hidden;
+        border: 1px solid var(--od-rule) !important;
+        box-shadow: 0 0 0 6px var(--od-paper);
+      }
+      .lov-deck .lov-gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.2) saturate(0.9); }
+
+      /* ── Comparison / before-after / vs-split ────────────────────── */
+      .lov-deck .lov-comparison {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 36px;
+        align-items: stretch;
+        margin-top: 48px;
+      }
+      .lov-deck .lov-comparison-vs {
+        display: flex; align-items: center; justify-content: center;
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(36px, 4vw, 64px);
+        color: var(--od-terracotta);
+        font-weight: 500;
+      }
+
+      /* ── Callout / manifesto / pull-quote ────────────────────────── */
+      .lov-deck .lov-callout {
+        max-width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+        padding: clamp(40px, 5vw, 80px) !important;
+      }
+
+      /* ── Section dividers (big chapter numbers like "01") ──────── */
+      .lov-deck .lov-section[data-layout="section-divider"] .lov-h2,
+      .lov-deck .lov-section[data-layout*="divider"] .lov-kicker {
+        font-family: "Cormorant Garamond", serif !important;
+        font-style: italic;
+        font-size: clamp(100px, 15vw, 240px) !important;
+        line-height: 1 !important;
+        color: var(--od-terracotta) !important;
+        letter-spacing: -0.02em;
+        font-weight: 400 !important;
+      }
+
+      /* ── Footer index pill "01 / 18" ─────────────────────────────── */
+      .lov-deck .lov-index {
+        position: absolute;
+        bottom: 28px; right: 36px;
+        background: transparent !important;
+        color: var(--od-teal) !important;
+        padding: 6px 14px;
+        border: 1px solid var(--od-rule);
+        border-radius: 999px;
+        font-size: 11px !important;
+        letter-spacing: 0.25em;
+        z-index: 3;
+        font-family: "Cinzel", serif !important;
+      }
+
+      /* ── Variant overrides (8 surface styles from renderer) ──────── */
+      .lov-deck .lov-v-paper { background: var(--od-paper) !important; }
+      .lov-deck .lov-v-filled {
+        background: var(--od-teal) !important;
+        color: var(--od-paper) !important;
+      }
+      .lov-deck .lov-v-filled .lov-h1,
+      .lov-deck .lov-v-filled .lov-h2,
+      .lov-deck .lov-v-filled .lov-h3,
+      .lov-deck .lov-v-filled .lov-quote { color: var(--od-gold-2) !important; }
+      .lov-deck .lov-v-filled .lov-body,
+      .lov-deck .lov-v-filled .lov-subtitle,
+      .lov-deck .lov-v-filled .lov-bullets li { color: var(--od-paper) !important; }
+      .lov-deck .lov-v-filled .lov-kicker { color: var(--od-terracotta-2) !important; }
+      .lov-deck .lov-v-outline { background: transparent !important; }
+      .lov-deck .lov-v-mono { filter: saturate(0.6); }
+      .lov-deck .lov-v-gradient {
+        background: linear-gradient(135deg, var(--od-teal) 0%, var(--od-terracotta) 100%) !important;
+        color: var(--od-paper) !important;
+      }
+      .lov-deck .lov-v-gradient .lov-h1,
+      .lov-deck .lov-v-gradient .lov-h2 { color: var(--od-paper) !important; }
+
+      /* ── Accent decorations (Greek-key + laurel motifs) ─────────── */
+      .lov-deck .lov-a-top::after {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 14px;
+        background-image:
+          repeating-linear-gradient(90deg,
+            var(--od-terracotta) 0 14px,
+            transparent 14px 28px),
+          linear-gradient(var(--od-teal), var(--od-teal));
+        background-size: 28px 4px, 100% 1px;
+        background-position: 0 5px, 0 13px;
+        background-repeat: repeat-x, no-repeat;
+        z-index: 2;
+      }
+      .lov-deck .lov-a-left::after {
+        content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 6px;
+        background: linear-gradient(180deg, var(--od-terracotta) 0%, var(--od-gold) 50%, var(--od-teal) 100%);
+        z-index: 2;
+      }
+      .lov-deck .lov-a-corner::after {
+        content: "❖"; position: absolute; top: 28px; right: 36px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(24px, 2vw, 36px);
+        color: var(--od-terracotta);
+        z-index: 2;
+        opacity: 0.7;
+      }
+      .lov-deck .lov-a-underline .lov-h1::after,
+      .lov-deck .lov-a-underline .lov-h2::after {
+        content: ""; display: block;
+        width: 120px; height: 2px; margin-top: 24px;
+        background: linear-gradient(90deg, var(--od-terracotta) 0%, transparent 100%);
+      }
+      .lov-deck .lov-a-side-bar { padding-left: 64px !important; border-left: 4px solid var(--od-terracotta) !important; }
+    </style>
+  </head>
+  <body>
+    <!--
+      The renderer (SlidesHtmlDeckCard) wipes this body and injects
+      AI-generated <section class="lov-section"> markup inside <main class="lov-deck">.
+      The CSS above is what makes the slides feel "Odyssey Classical".
+    -->
+    <main class="lov-deck">
+      <section class="lov-section lov-cover">
+        <div class="lov-content lov-content-center">
+          <div class="lov-kicker">An Epic Journey</div>
+          <h1 class="lov-h1">The Odyssey</h1>
+          <p class="lov-subtitle">A classical deck inspired by Homer's epic — parchment, ink, and the wine-dark sea.</p>
+        </div>
+        <div class="lov-index">01 / 18</div>
+      </section>
+    </main>
+  </body>
+</html>
