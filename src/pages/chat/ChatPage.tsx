@@ -2852,7 +2852,7 @@ Ask me anything to get started!`;
                         </Suspense>
                       </div>
                     )}
-                    {msg.role === "assistant" && msg.mode === "slides" && !msg.slidesDeck && !msg.standardSlides && !isLoading && (
+                    {msg.role === "assistant" && msg.mode === "slides" && !msg.slidesDeck && !isLoading && (
                       <div className="px-3 md:px-12 mt-3">
                         <div className="rounded-2xl border border-border/50 bg-card/60 backdrop-blur-xl p-4 max-w-xl">
                           <div className="text-[13px] font-medium text-foreground mb-1">عرض الشرائح غير متاح</div>
