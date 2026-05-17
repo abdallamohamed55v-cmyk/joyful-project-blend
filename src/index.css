@@ -754,6 +754,27 @@ input, textarea, select {
 .slides-info-prose h2,
 .slides-info-prose h3 { overflow-wrap: anywhere; }
 
+/* Faded brand-star badge before each line of slides streaming preview */
+.slides-info-prose p {
+  position: relative;
+  padding-inline-start: 1.4rem;
+  margin: 0.35rem 0;
+}
+.slides-info-prose p::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.55em;
+  width: 0.7rem;
+  height: 0.7rem;
+  background-color: hsl(var(--muted-foreground) / 0.45);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z'/></svg>") no-repeat center / contain;
+}
+.slides-info-prose h1::before,
+.slides-info-prose h2::before,
+.slides-info-prose h3::before { display: none; }
+
 /* ============================================================
    Per-language typography for chat messages
    - lang-ar  : Arabic (RTL, Arabic web font, slightly taller line)

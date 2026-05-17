@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, Maximize2, Download, Loader2, FileCode2, FileType2 } from "lucide-react";
 import { toast } from "sonner";
 import { exportDeckHtml, exportDeckPptx } from "@/lib/slidesExport";
+import { findSlidesTemplate } from "@/lib/slidesTemplates";
 
 export interface SlideData {
   type?: string;
@@ -193,7 +194,7 @@ const SlidesDeckCard = ({ deck }: Props) => {
           </div>
         </button>
         <div className="flex items-center justify-between px-3 py-2 border-t border-border/40 bg-background/40">
-          <div className="text-xs text-muted-foreground truncate">{deck.templateId.replace(/^premium-/, "")}</div>
+          <div className="text-xs text-muted-foreground truncate">{findSlidesTemplate(deck.templateId).name}</div>
           <div className="flex items-center gap-1.5">
             <button onClick={() => { setIdx(0); setOpen(true); }} className="text-xs font-semibold px-3 py-1.5 rounded-full bg-foreground text-background hover:opacity-90 transition">Open</button>
             <button onClick={handleHtml} disabled={exportingHtml} className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-full border border-border/60 hover:bg-muted/40 transition disabled:opacity-50">

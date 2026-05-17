@@ -2817,6 +2817,7 @@ Ask me anything to get started!`;
                     onStructuredAction={handleStructuredAction}
                     onEditUserMessageAt={msg.role === "user" ? handleEditUserMessageAt : undefined}
                     isDeepResearch={msg.mode === "deep-research" && msg.role === "assistant"}
+                    isSlidesMode={msg.mode === "slides" && msg.role === "assistant"}
                     researchQuery={msg.role === "assistant" && i > 0 && messages[i - 1]?.role === "user" ? messages[i - 1].content : undefined}
                     researchSessionKey={msg.role === "assistant" && conversationId ? `conv_${conversationId}_${i}` : undefined}
                     narrations={msg.role === "assistant" && i === messages.length - 1 ? narrations : undefined}
@@ -3198,7 +3199,7 @@ Ask me anything to get started!`;
                           <rect x="3.5" y="13.5" width="7" height="7" rx="1.8" />
                           <rect x="13.5" y="13.5" width="7" height="7" rx="1.8" />
                         </svg>
-                        <span className="truncate max-w-[120px]">قوالب</span>
+                        <span className="truncate max-w-[140px]">{findSlidesTemplate(slidesTemplate).name}</span>
                       </button>
                     ) : selectedAgent?.id === "docs" ? (
                       <button
