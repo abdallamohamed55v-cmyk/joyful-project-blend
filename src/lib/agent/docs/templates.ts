@@ -216,8 +216,6 @@ export const DOCS_TEMPLATES: DocsTemplate[] = [
     ],
     structureNotes: "Number articles (المادة الأولى/Article 1...). Use formal legal register.",
   },
-];
-
   // ───────────── Internally curated templates inspired by 2026 OSS docs frameworks ─────────────
   {
     id: "atrium-codex",
