@@ -47,6 +47,7 @@ interface ChatMessageProps {
   onEditUserMessage?: (text: string) => void;
   onEditUserMessageAt?: (index: number, text: string) => void;
   isDeepResearch?: boolean;
+  isSlidesMode?: boolean;
   researchQuery?: string;
   researchSessionKey?: string;
   narrations?: string[];
