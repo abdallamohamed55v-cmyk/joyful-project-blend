@@ -38,6 +38,8 @@ export default function DocsArtifactCard({ title, templateLabel, templateId, for
     }
   };
 
+  const isPreviewable = !!downloadUrl && /\.(pdf|md|markdown|txt|html)$/i.test(downloadUrl.split("?")[0]);
+
   return (
     <div className="mt-3 rounded-3xl border border-border/40 bg-card/60 backdrop-blur-md overflow-hidden shadow-sm max-w-md">
       {/* Cover with animated template icon */}
@@ -49,6 +51,18 @@ export default function DocsArtifactCard({ title, templateLabel, templateId, for
           {format}
         </div>
       </div>
+
+      {/* Inline preview pane (PDF / MD / HTML) */}
+      {isPreviewable && (
+        <div className="h-44 border-y border-border/30 bg-background overflow-hidden">
+          <iframe
+            src={downloadUrl}
+            title={title}
+            className="w-full h-full"
+            sandbox="allow-same-origin"
+          />
+        </div>
+      )}
 
       {/* Title row */}
       <div className="px-4 pt-3 pb-2">
