@@ -801,6 +801,18 @@ const ChatPage = () => {
         const { DOCS_TEMPLATES } = await import("@/lib/agent/docs/templates");
         const tpl = docsTemplate || DOCS_TEMPLATES[0];
         setSearchStatus(`جاري إنشاء ${tpl.label}…`);
+        // Show a tidy plan summary in the assistant bubble BEFORE the artifact arrives
+        const planLines = [
+          `سأبدأ بإنشاء ${tpl.label} حول: «${userInput.slice(0, 80)}».`,
+          "",
+          "ملخص ما سأفعله:",
+          ...tpl.sectionBlueprint.map((s) => `- ${s}`),
+          "",
+          `الصيغة: ${tpl.defaultFormat.toUpperCase()} — اللحظات الأخيرة قبل تسليم الملف…`,
+        ];
+        setMessages((prev) => prev.map((m) =>
+          m.clientId === `assistant-${localTurnId}` ? { ...m, content: planLines.join("\n") } : m
+        ));
         const res = await runDocsAgent({ prompt: userInput, template: tpl, format: tpl.defaultFormat });
         if (!res.ok) {
           toast.error(res.error || "Document generation failed");
