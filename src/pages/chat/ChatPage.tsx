@@ -2817,6 +2817,7 @@ Ask me anything to get started!`;
                     onStructuredAction={handleStructuredAction}
                     onEditUserMessageAt={msg.role === "user" ? handleEditUserMessageAt : undefined}
                     isDeepResearch={msg.mode === "deep-research" && msg.role === "assistant"}
+                    isSlidesMode={msg.mode === "slides" && msg.role === "assistant"}
                     researchQuery={msg.role === "assistant" && i > 0 && messages[i - 1]?.role === "user" ? messages[i - 1].content : undefined}
                     researchSessionKey={msg.role === "assistant" && conversationId ? `conv_${conversationId}_${i}` : undefined}
                     narrations={msg.role === "assistant" && i === messages.length - 1 ? narrations : undefined}
